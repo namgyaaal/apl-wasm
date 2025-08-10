@@ -244,7 +244,7 @@ public:
 
 protected:
    /// the CPU numbers that can be used
-   static std::basic_string<CPU_Number> the_CPUs;
+   static std::vector<CPU_Number> the_CPUs;
 };
 //============================================================================
 /**

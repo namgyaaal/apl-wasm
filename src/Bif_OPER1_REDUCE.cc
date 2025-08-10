@@ -51,7 +51,7 @@ ShapeItem len_A = A->element_count();
    // compute len_Z ← +/A
    //
 ShapeItem len_Z = 0;
-std::basic_string<ShapeItem> rep_counts;
+std::vector<ShapeItem> rep_counts;
    rep_counts.reserve(len_B);
    if (len_A == 1)   // single a -> a a ... a (len_B times)
       {

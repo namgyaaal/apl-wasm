@@ -276,7 +276,7 @@ public:
    ShapeItem get_cover_count() const      { return cover_count; }
 
    /// all solutions as len rows... len rows ...
-   std::basic_string<ShapeItem> all_solutions;
+   std::vector<ShapeItem> all_solutions;
 
 protected:
    /// the max. number of solutions to produce, 0 = all

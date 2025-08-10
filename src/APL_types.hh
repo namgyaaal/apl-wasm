@@ -30,6 +30,7 @@
 
 #include <complex>
 #include <memory>
+#include <string>
 
 #include <math.h>
 #include <stdint.h>

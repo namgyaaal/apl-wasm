@@ -116,7 +116,7 @@ const ShapeItem name_len = val.get_cols();
 //----------------------------------------------------------------------------
 void
 UCS_string_vector::compute_column_width(int tab_size,
-                                        std::basic_string<int> & result)
+                                        vector<int> & result)
 {
 const int quad_PW = Workspace::get_PW();
 
@@ -132,7 +132,7 @@ const int quad_PW = Workspace::get_PW();
    // compute block counts (one block having tab_size characters)
    //
 const int max_blocks = (quad_PW + 1) / tab_size;
-std::basic_string<int> name_blocks;
+std::vector<int> name_blocks;
    loop(n, size())   name_blocks.push_back(1 + (1 + at(n).size()) / tab_size);
 
    // compute max number of column blocks based on first line blocks

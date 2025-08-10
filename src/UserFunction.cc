@@ -102,7 +102,7 @@ UserFunction::UserFunction(const UCS_string txt, const char * loc,
 //----------------------------------------------------------------------------
 UserFunction::UserFunction(Fun_signature sig, int lambda_num,
                            const UCS_string & text, Token_string & lambda_body,
-                           const basic_string<Symbol *> & lvars)
+                           const vector<Symbol *> & lvars)
   : Function(ID_USER_SYMBOL, TOK_FUN0),
     Executable(sig, lambda_num, text, LOC),
     header(sig, lambda_num),
@@ -568,7 +568,7 @@ UCS_string message_2(error.get_error_line_2());
 }
 //----------------------------------------------------------------------------
 void
-UserFunction::set_trace_stop(std::basic_string<Function_Line> & B, bool stop)
+UserFunction::set_trace_stop(std::vector<Function_Line> & B, bool stop)
 {
    // Sort B, so that stop_lines resp. trace_lines will be sorted.
    //
@@ -1037,7 +1037,7 @@ int line = 1;
          // at this point, pc is the first label (of one or more).
          // Collect all of them and invalidate their token.
 
-         basic_string<int> labels_in_statement;
+         vector<int> labels_in_statement;
          labels_in_statement.push_back(body[pc].get_int_val());
          body[pc] = Token();
          for (int pc_1 = pc + 1; pc_1 < body.size(); ++pc_1)
@@ -1425,7 +1425,7 @@ const Parser parser(PM_FUNCTION, LOC, false);
         return 0;
       }
 
-basic_string<Symbol *> local_vars;
+std::vector<Symbol *> local_vars;
    while (body.size() >= 2)
       {
         const size_t semi = body.size() - 2;

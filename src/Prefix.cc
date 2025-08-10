@@ -255,7 +255,7 @@ const bool is_left_sym = get_assign_state() == ASS_arrow_seen;
 }
 //----------------------------------------------------------------------------
 void
-Prefix::collect_symbols(basic_string<Symbol *> & symbols)
+Prefix::collect_symbols(vector<Symbol *> & symbols)
 {
    // TOKEN ... TOKEN VAR ) ←   (reversed)
    //             ↑
@@ -1715,7 +1715,7 @@ const bool member_assign = prefix_len == 4;   // assume member reference
       then e.g. ⎕CR.subfun is replaced with ⎕CR[fun] where fun is the function
       number corresponding for the subfunction name subfun. Dito for ⎕FIO.
     */
-basic_string<const UCS_string *>members;
+vector<const UCS_string *>members;
 Symbol * top_sym = 0;
    members.push_back(at1().get_sym_ptr()->get_name_ptr());
    while (PC < (body.size() - 1))   // at least 2 more token
@@ -2268,7 +2268,7 @@ Prefix::reduce_V_RPAR_ASS_B()
       2. vector assignment;         (C D ... V) ← B
     */
 
-basic_string<Symbol *> symbols;
+vector<Symbol *> symbols;
    symbols.reserve(10);
    symbols.push_back(at0().get_sym_ptr());   // i.e. the last symbol V
    collect_symbols(symbols);   // of the remaining symbols C D ...

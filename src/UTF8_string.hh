@@ -39,7 +39,35 @@ class Value;
 typedef char ASCII;
 
 /// one byte (not character !( of a UTF8 encoded Unicode (RFC 3629) string
-typedef char8_t UTF8;
+typedef uint8_t UTF8;
+
+// I could replace uint8_t with char8_t but that would require replacing a lot of functions (100k LOC)
+// Do this for now to maintain compatibility with rest of code.
+struct UTF8CharTraits  
+{
+   using char_type = UTF8; 
+   using int_type = std::char_traits<char8_t>::int_type; 
+   using off_type = std::char_traits<char8_t>::off_type; 
+   using pos_type = std::char_traits<char8_t>::pos_type;
+   using state_type = std::char_traits<char8_t>::state_type;
+
+   static void assign(char_type &c1, char_type c2) noexcept;
+   static char_type *assign(char_type *s, std::size_t n, char_type c);
+   static bool eq(char_type c1, char_type c2) noexcept;
+   static bool lt(char_type c1, char_type c2) noexcept;
+   static char_type* move(char_type* s1, const char_type* s2, std::size_t n);
+   static char_type* copy(char_type* s1, const char_type* s2, std::size_t n);
+   static int  compare(const char_type* s1, const char_type* s2, std::size_t n);
+   static std::size_t   length(const char_type* s);
+   static const char_type* find(const char_type* s, std::size_t n, const char_type& c);
+   static char_type  to_char_type(int_type i) noexcept;
+   static int_type   to_int_type(char_type c) noexcept;
+   static bool eq_int_type(int_type i1, int_type i2) noexcept;
+   static int_type   eof() noexcept;
+   static int_type   not_eof(int_type i) noexcept;
+};
+
+
 
 //----------------------------------------------------------------------------
 /// frequently used cast to const UTF8 *
@@ -57,7 +85,7 @@ utf8P(ASCII * cp)
 }
 //----------------------------------------------------------------------------
 /// an UTF8 encoded Unicode (RFC 3629) string
-class UTF8_string : public std::basic_string<UTF8>
+class UTF8_string : public std::basic_string<UTF8, UTF8CharTraits>
 {
 public:
    /// constructor: empty UTF8_string
@@ -92,12 +120,12 @@ public:
    /// return \b this string as a 0-terminated C string
    const char * c_str() const
       { return reinterpret_cast<const char *>
-                               (std::basic_string<UTF8>::c_str()); }
+                               (std::basic_string<UTF8, UTF8CharTraits>::c_str()); }
 
    /// prevent basic_string::erase() with its dangerous default value for
    /// the number of erased character.
    void erase(size_t pos)
-      { basic_string<UTF8>::erase(pos, 1); }
+      { basic_string<UTF8, UTF8CharTraits>::erase(pos, 1); }
 
    /// return the last byte in this string
    UTF8 back() const
@@ -182,5 +210,6 @@ protected:
    UTF8_filebuf utf8_filebuf;
 };
 //============================================================================
+
 
 #endif // __UTF8_STRING_HH_DEFINED__

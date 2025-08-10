@@ -243,7 +243,7 @@ public:
    /// return TOK_LSYMB2 tokens ahead (excluding the leftmost one
    /// already read into \b content). The result \b symbols is empty
    /// for selective specifications and non-empty for vector specifications.
-   void collect_symbols(basic_string<Symbol *> & symbols);
+   void collect_symbols(vector<Symbol *> & symbols);
 
    /// clear the saved_MISC token
    void clear_MISC(const char * loc)

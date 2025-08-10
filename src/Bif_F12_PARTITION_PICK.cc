@@ -558,7 +558,7 @@ const Cell & cA = A0[idx_A];
 
              const UCS_string top_level(UNI_B);
              const UCS_string member(A);
-             basic_string<const UCS_string *> members;
+             std::vector<const UCS_string *> members;
              members.push_back(&member);
              members.push_back(&top_level);   // dummy, must be last
              Value * val_B = B.get();

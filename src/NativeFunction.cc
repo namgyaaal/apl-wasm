@@ -32,7 +32,7 @@
 #include "Symbol.hh"
 #include "Workspace.hh"
 
-std::basic_string<NativeFunction *> NativeFunction::valid_functions;
+std::vector<NativeFunction *> NativeFunction::valid_functions;
 
 //----------------------------------------------------------------------------
 NativeFunction::NativeFunction(const UCS_string & so_name,

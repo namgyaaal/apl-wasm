@@ -204,7 +204,7 @@ protected:
    Symbol * sym_B;
 
    /// The local variables of \b this function.
-   std::basic_string<Symbol *> local_vars;
+   std::vector<Symbol *> local_vars;
 
    /// The labels of \b this function.
    std::vector<labVal> label_values;

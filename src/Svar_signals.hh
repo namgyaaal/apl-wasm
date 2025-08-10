@@ -394,7 +394,7 @@ public:
    virtual uint8_t get__SET_STATE__new_state() const   ///< dito
       { bad_get("SET_STATE", "new_state"); return 0; }
    virtual string get__SET_STATE__sloc() const   ///< dito
-      { bad_get("SET_STATE", "sloc"); return 0; }
+      { bad_get("SET_STATE", "sloc"); return {}; }
 
 
 /// APserver request: set control of shared var \b key
@@ -418,9 +418,9 @@ public:
    virtual uint32_t get__VALUE_IS__error() const   ///< dito
       { bad_get("VALUE_IS", "error"); return 0; }
    virtual string get__VALUE_IS__error_loc() const   ///< dito
-      { bad_get("VALUE_IS", "error_loc"); return 0; }
+      { bad_get("VALUE_IS", "error_loc"); return {}; }
    virtual string get__VALUE_IS__cdr_value() const   ///< dito
-      { bad_get("VALUE_IS", "cdr_value"); return 0; }
+      { bad_get("VALUE_IS", "cdr_value"); return {}; }
 
 
 /// APserver request: SVAR←X
@@ -428,7 +428,7 @@ public:
    virtual uint64_t get__ASSIGN_VALUE__key() const   ///< dito
       { bad_get("ASSIGN_VALUE", "key"); return 0; }
    virtual string get__ASSIGN_VALUE__cdr_value() const   ///< dito
-      { bad_get("ASSIGN_VALUE", "cdr_value"); return 0; }
+      { bad_get("ASSIGN_VALUE", "cdr_value"); return {}; }
 
 /// APserver result for: SVAR←X
    /// access functions for signal SVAR_ASSIGNED...
@@ -437,7 +437,7 @@ public:
    virtual uint32_t get__SVAR_ASSIGNED__error() const   ///< dito
       { bad_get("SVAR_ASSIGNED", "error"); return 0; }
    virtual string get__SVAR_ASSIGNED__error_loc() const   ///< dito
-      { bad_get("SVAR_ASSIGNED", "error_loc"); return 0; }
+      { bad_get("SVAR_ASSIGNED", "error_loc"); return {}; }
 
 
 /// APserver request: Can svar key be referenced ?
@@ -468,7 +468,7 @@ public:
 /// APserver result (record) for: read SVAR database record from APserver
    /// access functions for signal SVAR_RECORD_IS...
    virtual string get__SVAR_RECORD_IS__record() const   ///< dito
-      { bad_get("SVAR_RECORD_IS", "record"); return 0; }
+      { bad_get("SVAR_RECORD_IS", "record"); return {}; }
 
 
 /// APserver request: is ID registered ?
@@ -498,13 +498,13 @@ public:
    virtual uint8_t get__REGISTER_PROCESSOR__evconn() const   ///< dito
       { bad_get("REGISTER_PROCESSOR", "evconn"); return 0; }
    virtual string get__REGISTER_PROCESSOR__progname() const   ///< dito
-      { bad_get("REGISTER_PROCESSOR", "progname"); return 0; }
+      { bad_get("REGISTER_PROCESSOR", "progname"); return {}; }
 
 
 /// APserver request: match offered shared variable or make a new offer
    /// access functions for signal MATCH_OR_MAKE...
    virtual string get__MATCH_OR_MAKE__varname() const   ///< dito
-      { bad_get("MATCH_OR_MAKE", "varname"); return 0; }
+      { bad_get("MATCH_OR_MAKE", "varname"); return {}; }
    virtual uint32_t get__MATCH_OR_MAKE__to_proc() const   ///< dito
       { bad_get("MATCH_OR_MAKE", "to_proc"); return 0; }
    virtual uint32_t get__MATCH_OR_MAKE__to_parent() const   ///< dito
@@ -551,7 +551,7 @@ public:
 /// APserver result for: get offering processors  (⎕SVQ)
    /// access functions for signal OFFERING_PROCS_ARE...
    virtual string get__OFFERING_PROCS_ARE__offering_procs() const   ///< dito
-      { bad_get("OFFERING_PROCS_ARE", "offering_procs"); return 0; }
+      { bad_get("OFFERING_PROCS_ARE", "offering_procs"); return {}; }
 
 
 /// APserver request: get offered variables  (⎕SVQ)
@@ -565,7 +565,7 @@ public:
 /// APserver result for: get offered variables  (⎕SVQ)
    /// access functions for signal OFFERED_VARS_ARE...
    virtual string get__OFFERED_VARS_ARE__offered_vars() const   ///< dito
-      { bad_get("OFFERED_VARS_ARE", "offered_vars"); return 0; }
+      { bad_get("OFFERED_VARS_ARE", "offered_vars"); return {}; }
 
 
 /// APserver request: find pairing key (CTL vs. DAT or Cnnn vs. Dnnn) for AP210
@@ -629,7 +629,7 @@ public:
    virtual uint64_t get__ASSIGN_WSWS_VAR__key() const   ///< dito
       { bad_get("ASSIGN_WSWS_VAR", "key"); return 0; }
    virtual string get__ASSIGN_WSWS_VAR__cdr_value() const   ///< dito
-      { bad_get("ASSIGN_WSWS_VAR", "cdr_value"); return 0; }
+      { bad_get("ASSIGN_WSWS_VAR", "cdr_value"); return {}; }
 
 /// APserver request: X←ws-ws SVAR
    /// access functions for signal READ_WSWS_VAR...
@@ -639,7 +639,7 @@ public:
 /// APserver result for: X←ws-ws SVAR
    /// access functions for signal WSWS_VALUE_IS...
    virtual string get__WSWS_VALUE_IS__cdr_value() const   ///< dito
-      { bad_get("WSWS_VALUE_IS", "cdr_value"); return 0; }
+      { bad_get("WSWS_VALUE_IS", "cdr_value"); return {}; }
 
 
 /// APserver request: print the entire database (for command ]SVARS)
@@ -648,7 +648,7 @@ public:
 /// APserver result for: print the entire database
    /// access functions for signal SVAR_DB_PRINTED...
    virtual string get__SVAR_DB_PRINTED__printout() const   ///< dito
-      { bad_get("SVAR_DB_PRINTED", "printout"); return 0; }
+      { bad_get("SVAR_DB_PRINTED", "printout"); return {}; }
 
 
 

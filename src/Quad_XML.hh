@@ -226,7 +226,7 @@ protected:
    static Value_P APL_to_XML(const Value & B);
 
    /// return the entities in B, sorted by their position prefix
-   static void add_sorted_entities(basic_string<const UCS_string *> & entities,
+   static void add_sorted_entities(vector<const UCS_string *> & entities,
                                    const Value & B);
 
    /// convert XML string to APL associative array

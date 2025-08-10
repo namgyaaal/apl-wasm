@@ -343,7 +343,7 @@ public:
 
    /// append members (like x.y.z) starting at members[m] and going backwards
    /// from the end of \b members to \b this string.
-   void append_members(const basic_string<const UCS_string *> & members, int m);
+   void append_members(const std::vector<const UCS_string *> & members, int m);
 
    /// append number (in ASCII encoding like %lf) to this string
    void append_float(APL_Float num);

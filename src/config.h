@@ -26,7 +26,7 @@
 #define HAVE_DUP2 1
 
 /* Define to 1 if you have the <execinfo.h> header file. */
-#define HAVE_EXECINFO_H 1
+//#define HAVE_EXECINFO_H 0
 
 /* Define to 1 if you have the <ext/atomicity.h> header file. */
 /* #undef HAVE_EXT_ATOMICITY_H */

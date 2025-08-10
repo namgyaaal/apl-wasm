@@ -40,7 +40,6 @@
 #include "Quad_JSON.hh"
 #include "Quad_MAP.hh"
 #include "Quad_PLOT.hh"
-#include "Quad_PNG.hh"
 #include "Quad_RE.hh"
 #include "Quad_RVAL.hh"
 #include "Quad_TF.hh"
@@ -443,7 +442,7 @@ Quad_ENV::eval_B(Value_P B) const
 
 const ShapeItem ec_B = B->element_count();
 
-std::basic_string<const char *> evars;
+std::vector<const char *> evars;
 
    for (char **e = environ; *e; ++e)
        {
@@ -701,7 +700,7 @@ int ret = 0;   // assume ⎕EX failure
 
    // build vector of member names in reverse order
    //
-basic_string<const UCS_string *>members;
+vector<const UCS_string *>members;
    {
      int dot = name.size();
      for (int from = dot - 1; from >= 0; --from)
@@ -1188,7 +1187,7 @@ int requested_NCs = 0;
    //
 UCS_string_vector names;
    {
-     std::basic_string<const Symbol *> symbols = Workspace::get_all_symbols();
+     std::vector<const Symbol *> symbols = Workspace::get_all_symbols();
 
      loop(s, symbols.size())
         {
@@ -1537,7 +1536,7 @@ const UserFunction * ufun = fun->get_func_ufun();
 }
 //----------------------------------------------------------------------------
 Token
-Stop_Trace::reference(const std::basic_string<Function_Line> & lines,
+Stop_Trace::reference(const std::vector<Function_Line> & lines,
                       bool assigned)
 {
 Value_P Z(lines.size(), LOC);
@@ -1551,7 +1550,7 @@ Value_P Z(lines.size(), LOC);
 void
 Stop_Trace::assign(UserFunction * ufun, const Value & new_value, bool stop)
 {
-std::basic_string<Function_Line> lines;
+std::vector<Function_Line> lines;
    lines.reserve(new_value.element_count());
 
    loop(l, new_value.element_count())

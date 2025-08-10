@@ -32,6 +32,105 @@
 #include "UTF8_string.hh"
 #include "Workspace.hh"
 
+
+// Char traits for UTF8 
+
+
+void UTF8CharTraits::assign(char_type& c1, char_type c2) noexcept
+{
+    c1 = c2;
+}
+
+UTF8CharTraits::char_type* UTF8CharTraits::assign(char_type* s, std::size_t n, char_type c)
+{
+    return reinterpret_cast<UTF8CharTraits::char_type*>(
+        std::char_traits<char>::assign(reinterpret_cast<char*>(s), n, static_cast<char>(c)));
+}
+
+
+bool UTF8CharTraits::eq(char_type c1, char_type c2) noexcept
+{
+    return c1 == c2;
+}
+
+
+bool UTF8CharTraits::lt(char_type c1, char_type c2) noexcept
+{
+    return c1 < c2;
+}
+
+
+UTF8CharTraits::char_type* UTF8CharTraits::move(char_type* s1, const char_type* s2, std::size_t n)
+{
+    std::memmove(s1, s2, n);
+    return s1;
+}
+
+
+UTF8CharTraits::char_type* UTF8CharTraits::copy(char_type* s1, const char_type* s2, std::size_t n)
+{
+    std::memcpy(s1, s2, n);
+    return s1;
+}
+
+
+int UTF8CharTraits::compare(const char_type* s1, const char_type* s2, std::size_t n)
+{
+    return std::memcmp(s1, s2, n);
+}
+
+
+std::size_t UTF8CharTraits::length(const char_type* s)
+{
+    return std::strlen(reinterpret_cast<const char*>(s));
+}
+
+
+const UTF8CharTraits::char_type* UTF8CharTraits::find(const char_type* s, std::size_t n, const char_type& c)
+{
+    return reinterpret_cast<const UTF8CharTraits::char_type*>(
+        std::char_traits<char>::find(reinterpret_cast<const char*>(s), n, static_cast<char>(c)));
+}
+
+
+UTF8CharTraits::char_type UTF8CharTraits::to_char_type(int_type i) noexcept
+{
+    return static_cast<UTF8CharTraits::char_type>(std::char_traits<char>::to_char_type(i));
+}
+
+
+UTF8CharTraits::int_type UTF8CharTraits::to_int_type(char_type c) noexcept
+{
+    return std::char_traits<char>::to_int_type(static_cast<char>(c));
+}
+
+
+bool UTF8CharTraits::eq_int_type(int_type i1, int_type i2) noexcept
+{
+    return i1 == i2;
+}
+
+
+UTF8CharTraits::int_type UTF8CharTraits::eof() noexcept
+{
+    return std::char_traits<char>::eof();
+}
+
+
+UTF8CharTraits::int_type UTF8CharTraits::not_eof(int_type i) noexcept
+{
+    return std::char_traits<char>::not_eof(i);
+}
+
+
+
+
+
+
+
+
+
+
 /* from RFC 3629 / STD 63:
 
    Char. number range  |        UTF-8 octet sequence

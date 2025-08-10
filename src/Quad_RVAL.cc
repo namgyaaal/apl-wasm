@@ -29,9 +29,9 @@
 #include "Value.hh"
 
 size_t N;
-basic_string<int> Quad_RVAL::desired_ranks;
+vector<int> Quad_RVAL::desired_ranks;
 Shape       Quad_RVAL::desired_shape;
-basic_string<int> Quad_RVAL::desired_types;
+vector<int> Quad_RVAL::desired_types;
 int         Quad_RVAL::desired_maxdepth;
 char        Quad_RVAL::state[256];
 size_t      Quad_RVAL::N;

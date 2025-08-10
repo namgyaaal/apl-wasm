@@ -39,7 +39,6 @@ using namespace std;
 #include "Quad_JSON.hh"
 #include "Quad_MAP.hh"
 #include "Quad_PLOT.hh"
-#include "Quad_PNG.hh"
 #include "Quad_RVAL.hh"
 #include "Quad_TF.hh"
 #include "Quad_XML.hh"

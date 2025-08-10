@@ -49,7 +49,7 @@ Shape shape_B = B->get_shape();
 
 const ShapeItem ec_A = A->element_count();
 ShapeItem ones_A = 0;
-std::basic_string<ShapeItem> rep_counts;
+std::vector<ShapeItem> rep_counts;
    rep_counts.reserve(ec_A);
    loop(a, ec_A)
       {

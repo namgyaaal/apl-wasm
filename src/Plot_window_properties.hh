@@ -343,7 +343,7 @@ protected:
    /// from being overwridden in set_all_XXX() functions. Every 16-bit item
    /// of \b properties_set is the line (upper 8 bits) and the property number
    /// (lower 8 bits).
-   basic_string<uint16_t> properties_set;
+   vector<uint16_t> properties_set;
 };
 //============================================================================
 

@@ -25,6 +25,7 @@
 #define __USER_PREFERENCES_HH_DEFINED__
 
 #include <sys/time.h>
+#include <vector>
 #include <string>
 
 #include "Parallel.hh"
@@ -117,10 +118,10 @@ struct UserPreferences
    void parse_argv_2(bool logit);
 
    /// argv/argc at startup before expand_argv()
-   std::basic_string<const char *> original_argv;
+   std::vector<const char *> original_argv;
 
    /// argv/argc after expand_argv()
-   std::basic_string<const char *> expanded_argv;
+   std::vector<const char *> expanded_argv;
 
    /// append test results to summary.log rather than overriding it
    bool append_summary;
@@ -169,7 +170,7 @@ struct UserPreferences
    void expand_argv(int argc, const char ** argv);
 
    /// --eval expressions
-   std::basic_string<const char *> eval_exprs;
+   std::vector<const char *> eval_exprs;
 
    /// initial value of ⎕PW
    int initial_pw;

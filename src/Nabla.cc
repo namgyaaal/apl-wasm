@@ -234,8 +234,8 @@ UserFunction * ufun = UserFunction::fix(fun_text, error_line, false,
 
    // set stop and trace vectors
    //
-std::basic_string<Function_Line> stop_vec;
-std::basic_string<Function_Line> trace_vec;
+std::vector<Function_Line> stop_vec;
+std::vector<Function_Line> trace_vec;
    loop(l, lines.size())
        {
          if (lines[l].stop_flag)    stop_vec.push_back(Function_Line(l));

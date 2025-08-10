@@ -85,7 +85,7 @@ INFO(Quad_ES::fun, __LINE__)
 Quad_ES Quad_ES   ::fun;
 
 INFO(CPU_pool::the_CPUs, __LINE__);
-std::basic_string<CPU_Number> CPU_pool::the_CPUs;
+std::vector<CPU_Number> CPU_pool::the_CPUs;
 
 INFO(Macro::all_macros, __LINE__)
 #define mac_def(name, txt) Macro Macro::name(MAC_ ## name, UTF8_string(txt));

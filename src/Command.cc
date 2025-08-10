@@ -1913,7 +1913,7 @@ UCS_string_vector all_names;
    //
    enum { tabsize = 4 };
 
-std::basic_string<int> col_widths;
+std::vector<int> col_widths;
    all_names.compute_column_width(tabsize, col_widths);
 
    loop(c, all_names.size())

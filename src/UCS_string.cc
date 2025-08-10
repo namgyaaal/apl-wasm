@@ -46,31 +46,31 @@ UCS_string::UCS_string()
 }
 //----------------------------------------------------------------------------
 UCS_string::UCS_string(Unicode uni)
-   : basic_string<Unicode>(1, uni)
+   : UnicodeString(1, uni)
 {
   create(LOC);
 }
 //----------------------------------------------------------------------------
 UCS_string::UCS_string(const Unicode * data, size_t len)
-   : basic_string<Unicode>(data, len)
+   : UnicodeString(data, len)
 {
    create(LOC);
 }
 //----------------------------------------------------------------------------
 UCS_string::UCS_string(size_t len, Unicode uni)
-   : basic_string<Unicode>(len, uni)
+   : UnicodeString(len, uni)
 {
    create(LOC);
 }
 //----------------------------------------------------------------------------
 UCS_string::UCS_string(const UCS_string & ucs)
-   : basic_string<Unicode>(ucs)
+   : UnicodeString(ucs)
 {
    create(LOC);
 }
 //----------------------------------------------------------------------------
 UCS_string::UCS_string(const UCS_string & ucs, size_t pos, size_t len)
-   : basic_string<Unicode>(ucs, pos, len)
+   : UnicodeString(ucs, pos, len)
 {
    create(LOC);
 }
@@ -365,7 +365,7 @@ const int total_width = pb.get_column_count();
    // All subsequent rows are aligned to the first row, therefore the first
    // row can be taken as a prototype for all rows.
 size_t chunk_len = 0;
-std::basic_string<int> chunk_lengths;
+std::vector<int> chunk_lengths;
    chunk_lengths.reserve(2*total_width/quad_PW);
    for (int col = 0; col < total_width; col += chunk_len)
        {
@@ -1011,7 +1011,7 @@ UCS_string::append_shape(const Shape & shape)
 }
 //----------------------------------------------------------------------------
 void
-UCS_string::append_members(const basic_string<const UCS_string *> & members,
+UCS_string::append_members(const std::vector<const UCS_string *> & members,
                            int m)
 {
    for (int mm = members.size() - 1; mm >= m; --mm)

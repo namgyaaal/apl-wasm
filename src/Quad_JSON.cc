@@ -277,7 +277,7 @@ Quad_JSON::APL_to_JSON_string(UCS_string & result, const Value & B,
 
    if (B.is_structured())   // JSON object
       {
-        std::basic_string<ShapeItem> member_indices;
+        std::vector<ShapeItem> member_indices;
         B.used_members(member_indices, sorted);
 
         loop(m, member_indices.size())
@@ -416,7 +416,7 @@ UCS_string ucs_B;
 
    // tokenize ucs_B
    //
-std::basic_string<ShapeItem> tokens_B;
+std::vector<ShapeItem> tokens_B;
    tokens_B.reserve(10 + len_B/2);
 
    loop(b, ucs_B.size())
@@ -486,7 +486,7 @@ size_t token0 = 0;
 //----------------------------------------------------------------------------
 void
 Quad_JSON::parse_value(Value & Z, const UCS_string & ucs_B,
-                      const std::basic_string<ShapeItem> & tokens_B, size_t & token0)
+                      const std::vector<ShapeItem> & tokens_B, size_t & token0)
 {
 const ShapeItem b = tokens_B.at(token0);
    switch(ucs_B[b])
@@ -531,7 +531,7 @@ const ShapeItem b = tokens_B.at(token0);
 //----------------------------------------------------------------------------
 void
 Quad_JSON::parse_array(Value & Z, const UCS_string & ucs_B,
-                       const std::basic_string<ShapeItem> & tokens_B,
+                       const std::vector<ShapeItem> & tokens_B,
                        size_t & token0)
 {
 size_t token_from = token0;
@@ -589,7 +589,7 @@ const size_t commas = comma_count(ucs_B, tokens_B, token0);
 //----------------------------------------------------------------------------
 void
 Quad_JSON::parse_object(Value & Z, const UCS_string & ucs_B,
-                        const std::basic_string<ShapeItem> & tokens_B,
+                        const std::vector<ShapeItem> & tokens_B,
                         size_t & token0)
 {
 size_t token_from = token0;
@@ -632,7 +632,7 @@ Value_P assoc_array = EmptyStruct(LOC);
 //----------------------------------------------------------------------------
 void
 Quad_JSON::parse_object_member(Value & Z, const UCS_string & ucs_B,
-                               const std::basic_string<ShapeItem> & tokens_B,
+                               const std::vector<ShapeItem> & tokens_B,
                                size_t & token_from)
 {
 const size_t B_start =  tokens_B[token_from];
@@ -901,7 +901,7 @@ Value_P Zsub(LOC);
 //----------------------------------------------------------------------------
 size_t
 Quad_JSON::comma_count(const UCS_string & ucs_B,
-                       const std::basic_string<ShapeItem> & tokens_B,
+                       const std::vector<ShapeItem> & tokens_B,
                        size_t & token0)
 {
    // ucs_B is the JSON text string being parsed,

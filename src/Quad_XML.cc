@@ -252,7 +252,7 @@ Value_P Z = XML_to_APL(*B);
 Value_P
 Quad_XML::APL_to_XML(const Value & B)
 {
-basic_string<const UCS_string *> entities;
+vector<const UCS_string *> entities;
    add_sorted_entities(entities, B);
 
 ShapeItem len_Z = 0;
@@ -272,12 +272,12 @@ Value_P Z(len_Z, LOC);
 }
 //----------------------------------------------------------------------------
 void
-Quad_XML::add_sorted_entities(basic_string<const UCS_string *> & entities,
+Quad_XML::add_sorted_entities(vector<const UCS_string *> & entities,
                               const Value & B)
 {
    Assert(B.is_structured());
 
-std::basic_string<ShapeItem> member_indices;
+std::vector<ShapeItem> member_indices;
    B.sorted_members(member_indices, /* filter */ 0);
 
 UCS_string start_tag_name;   // for constructing the corresponding end tag
@@ -596,8 +596,8 @@ XML_node::collect(XML_node & anchor, XML_node & garbage, Value * Z)
 {
 XML_node * root = 0;
 
-basic_string<XML_node *> stack;   // a stack of start tags
-basic_string<size_t> pos_stack;   // a stack of node positions
+vector<XML_node *> stack;   // a stack of start tags
+vector<size_t> pos_stack;   // a stack of node positions
 
    // set the positions (before removing any nodes)
    //
@@ -1514,7 +1514,7 @@ Quad_XML::tree(const Value & B, UCS_string & z, UCS_string & prefix,
           LEG_TOT = LEG_LEN + LEG_SPC + LEG_IND
         };
 
-std::basic_string<ShapeItem> member_indices;
+std::vector<ShapeItem> member_indices;
    if (flags & tf_with_decl)   // all (no filter)
       B.sorted_members(member_indices, /* filter */ 0);
    else
@@ -1524,7 +1524,7 @@ std::basic_string<ShapeItem> member_indices;
       }
 
 UCS_string_vector member_names;
-std::basic_string<const Cell *>member_values;
+std::vector<const Cell *>member_values;
 
    loop(m, member_indices.size())
       {
@@ -1639,11 +1639,11 @@ int f = 0;
    filters[f++] = UNI_UNDERSCORE;   // always return subnodes
    filters[f++] = Unicode_0;
 
-std::basic_string<ShapeItem> member_indices;
+std::vector<ShapeItem> member_indices;
    B.sorted_members(member_indices, filters);
 
 UCS_string_vector member_names;
-std::basic_string<const Cell *>member_values;
+std::vector<const Cell *>member_values;
    loop(m, member_indices.size())
       {
         const Cell & cB = B.get_cravel(2*member_indices[m]);
@@ -1724,7 +1724,7 @@ const Value & A1 = *A.get_cravel(1).get_pointer_value();
       {
         // an empty A1 shall return the smallest element
         //
-        std::basic_string<ShapeItem> member_indices;
+        std::vector<ShapeItem> member_indices;
         B.sorted_members(member_indices, /* filters */ 0);
 
         const Cell & cell = B.get_cravel(2*member_indices[0]);
@@ -1776,7 +1776,7 @@ ShapeItem leaf_position;
      leaf_position += weight * B_total;
    }
 
-std::basic_string<ShapeItem> member_indices;
+std::vector<ShapeItem> member_indices;
    container->sorted_members(member_indices, /* filters */ 0);
 
    loop(m, member_indices.size())

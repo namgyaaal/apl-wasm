@@ -83,7 +83,7 @@
   sf_def(Quad_NC,    "NC",    "Name Class"                   )
   sf_def(Quad_NL,    "NL",    "Name List"                    )
   sf_def(Quad_PLOT,  "PLOT",  "Plot a Value"                 )
-  sf_def(Quad_PNG,   "PNG",   "Portable Network Graphics"    )
+  // sf_def(Quad_PNG,   "PNG",   "Portable Network Graphics"    )
   sf_def(Quad_RE,    "RE",    "Regular expression"           )
   sf_def(Quad_RVAL,  "RVAL",    "Random APL value"           )
   sf_def(Quad_SI,    "SI",    "State Indicator"              )

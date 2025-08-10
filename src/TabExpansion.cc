@@ -63,7 +63,7 @@ TabExpansion::expand_tab(UCS_string & user_input)
 ExpandResult
 TabExpansion::expand_user_name(UCS_string & user_input)
 {
-std::basic_string<const Symbol *> symbols = Workspace::get_all_symbols();
+std::vector<const Symbol *> symbols = Workspace::get_all_symbols();
 
 UCS_string_vector matches;
    loop(s, symbols.size())
@@ -216,7 +216,7 @@ const UCS_string help(user_input, 0, 6);
 UCS_string prefix(user_input, 5, user_input.size() - 5);   // the name prefix
    prefix.remove_leading_whitespaces();
 
-std::basic_string<const Symbol *> symbols = Workspace::get_all_symbols();
+std::vector<const Symbol *> symbols = Workspace::get_all_symbols();
 
 UCS_string_vector matches;
    loop(s, symbols.size())
@@ -297,7 +297,7 @@ const int max_col = Workspace::get_PW() - 4;
          if (col > max_col)   { CERR << endl;   col = 0; } \
        }
 
-std::basic_string<const Symbol *> symbols = Workspace::get_all_symbols();
+std::vector<const Symbol *> symbols = Workspace::get_all_symbols();
 
 UCS_string_vector names;
    loop(s, symbols.size())
@@ -499,7 +499,7 @@ UCS_string prefix = user_input.drop(prefix_len);
 
    // got HAVE- or NO-; expand capability...
    //
-basic_string<const char *> matches;
+vector<const char *> matches;
    if (prefix.size() >= 5 && prefix.starts_iwith("HAVE-"))
       {
         stem.append_ASCII(" HAVE-");

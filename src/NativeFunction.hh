@@ -176,7 +176,7 @@ protected:
    Fun_signature signature;
 
    /// all native functions currently active
-   static std::basic_string<NativeFunction *> valid_functions;
+   static std::vector<NativeFunction *> valid_functions;
 
    typedef Value_P Vr;   ///< shortcut for Value_P
 

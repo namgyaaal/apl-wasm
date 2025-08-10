@@ -658,7 +658,7 @@ bool optimized = false;
 
        before_ranges should be:  0 1 2 2 2 3
    */
-basic_string<int>ranges_before;   ranges_before.reserve(stat_before.size());
+vector<int>ranges_before;   ranges_before.reserve(stat_before.size());
 
    for (Function_PC PC_before = Function_PC_0, PC_after  = Function_PC_0;
         int(ranges_before.size()) < stat_before.size();
@@ -1003,7 +1003,7 @@ const Fun_signature signature = compute_lambda_body(lambda_body, b, bend);
       │               │
       ENDL            RETURN
     */
-basic_string<Symbol *> local_vars;   // collector for local variables
+vector<Symbol *> local_vars;   // collector for local variables
    while (lambda_body.size() >= 4)
       {
         const size_t semi = lambda_body.size() - 4;   // maybe ';' SYMBOL ?
@@ -1021,7 +1021,7 @@ const UCS_string lambda_text = extract_lambda_text(signature, lambda_num - 1);
    reverse_all_token(lambda_body);
 
   {
-    basic_string<Symbol *> local_vars;
+    vector<Symbol *> local_vars;
     while (lambda_body.size() > 4)
        {
          const size_t semi = lambda_body.size() - 4;

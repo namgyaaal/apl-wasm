@@ -1140,7 +1140,7 @@ int count = 0;
 }
 //----------------------------------------------------------------------------
 void
-Symbol::vector_assignment(std::basic_string<Symbol *> & symbols, Value_P values)
+Symbol::vector_assignment(std::vector<Symbol *> & symbols, Value_P values)
 {
    if (values->get_rank() > 1)   RANK_ERROR;
    if (!values->is_scalar() &&

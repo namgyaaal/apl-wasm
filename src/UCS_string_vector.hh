@@ -57,7 +57,7 @@ public:
       }
 
    /// compute columns width so that items align nicely (for )VARS, )FNS, etc.)
-   void compute_column_width(int tab_size, std::basic_string<int> & result);
+   void compute_column_width(int tab_size, std::vector<int> & result);
 
    /// replacement for erase(std::vector::iterator position)
    void erase(size_t pos)

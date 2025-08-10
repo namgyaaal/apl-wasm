@@ -95,7 +95,7 @@ public:
       };
 
    /// all open ⎕PLOT windows.
-   static basic_string<PLOT_context *> all_PLOT_windows;
+   static vector<PLOT_context *> all_PLOT_windows;
 
    /// the GTK window that handles one plot window. Always declared here
    /// (to make doxygen happy, but only implemented if apl_GTK3

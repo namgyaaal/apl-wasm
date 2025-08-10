@@ -516,7 +516,7 @@ Quad_SVQ::get_processors()
    //
    // 2. running processors that have offered variables in Svar_DB.
    //
-std::basic_string<AP_num> processors;
+std::vector<AP_num> processors;
 
    // case 1...
    //
@@ -578,7 +578,7 @@ const char * dirs[] = { "", "/APs" };
 
    // sort and remove duplicates
    //
-std::basic_string<int32_t> sorted;
+std::vector<int32_t> sorted;
    while (processors.size())
       {
         // find smallest
@@ -615,12 +615,12 @@ Value_P Z(sorted.size(), LOC);
 Value_P
 Quad_SVQ::get_variables(AP_num proc)
 {
-std::basic_string<uint32_t> varnames;
+std::vector<uint32_t> varnames;
    Svar_DB::get_offered_variables(ProcessorID::get_own_ID(), proc, varnames);
 
    // varnames is a sequence of 0-terminated Unicodes
    //
-std::basic_string<int> var_lengths;   // including terminating 0
+std::vector<int> var_lengths;   // including terminating 0
 int last_zero = -1;
    loop(v, varnames.size())
       {

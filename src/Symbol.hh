@@ -396,7 +396,7 @@ public:
 
    /// perform a vector assignment (like (A B C)←1 2 3) for variables in
    /// \b symbols with values \b values
-   static void vector_assignment(std::basic_string<Symbol *> & symbols,
+   static void vector_assignment(std::vector<Symbol *> & symbols,
                                  Value_P values);
 
    /// dump this symbol to out

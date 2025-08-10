@@ -41,7 +41,7 @@ public:
    /// constructor for a lambda
    UserFunction(Fun_signature sig, int lambda_num,
                 const UCS_string & text, Token_string & body,
-                const basic_string<Symbol *> & lvars);
+                const vector<Symbol *> & lvars);
 
    /// Destructor.
    ~UserFunction();
@@ -239,7 +239,7 @@ public:
       { return creator; }
 
    /// set trace or stop vector
-   void set_trace_stop(std::basic_string<Function_Line> & lines, bool stop);
+   void set_trace_stop(std::vector<Function_Line> & lines, bool stop);
 
    /// transform a function body containing (old-style) multi-lines into a
    /// standard function body
@@ -253,11 +253,11 @@ public:
    void parse_body(const char * loc, bool tolerant, bool macro);
 
    /// return stop lines (from S∆fun ← lines)
-   const std::basic_string<Function_Line> & get_stop_lines() const
+   const std::vector<Function_Line> & get_stop_lines() const
       { return stop_lines; }
 
    /// return trace lines (from S∆fun ← lines)
-   const std::basic_string<Function_Line> & get_trace_lines() const
+   const std::vector<Function_Line> & get_trace_lines() const
       { return trace_lines; }
 
    /// return the header object (return value name, argument names, local vars,
@@ -330,13 +330,13 @@ protected:
       [N] TOK_RETURN_SYMBOL or TOK_RETURN_VOID   <--+
 
    **/
-   std::basic_string<Function_PC> line_starts;
+   std::vector<Function_PC> line_starts;
 
    /// stop lines (from S∆fun ← lines)
-   std::basic_string<Function_Line> stop_lines;
+   std::vector<Function_Line> stop_lines;
 
    /// trace lines (from S∆fun ← lines)
-   std::basic_string<Function_Line> trace_lines;
+   std::vector<Function_Line> trace_lines;
 
    /// execution properties as per 3⎕AT
    int exec_properties[4];

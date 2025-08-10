@@ -641,7 +641,7 @@ const ShapeItem ec = nz_element_count();
 }
 //----------------------------------------------------------------------------
 Cell *
-Value::get_member(const basic_string<const UCS_string *> & members,
+Value::get_member(const std::vector<const UCS_string *> & members,
                   Value * & owner, bool create_if_needed, bool throw_error)
 {
    owner = this;
@@ -765,7 +765,7 @@ const ShapeItem rows = get_rows();
 }
 //----------------------------------------------------------------------------
 void
-Value::used_members(std::basic_string<ShapeItem> & result, bool sorted) const
+Value::used_members(std::vector<ShapeItem> & result, bool sorted) const
 {
    Assert(is_structured());
 
@@ -805,7 +805,7 @@ const ShapeItem rows = get_rows();
 }
 //----------------------------------------------------------------------------
 void
-Value::sorted_members(std::basic_string<ShapeItem> & result,
+Value::sorted_members(std::vector<ShapeItem> & result,
                       const Unicode * filters) const
 {
    // we take advantage of the fact that the positions in the member
@@ -1162,7 +1162,7 @@ Value::add_member(const UCS_string & member_name, Value * member_value)
         DOMAIN_ERROR;
       }
 
-basic_string<const UCS_string *> members;
+std::vector<const UCS_string *> members;
    members.push_back(&member_name);
    members.push_back(&member_name);   // ignored
 
@@ -2674,7 +2674,7 @@ const ShapeItem rows = ec/cols;
 int
 Value::print_incomplete(ostream & out)
 {
-std::basic_string<const Value *> incomplete;
+std::vector<const Value *> incomplete;
 bool goon = true;
 
    for (const DynamicObject * dob = all_values.get_prev();
@@ -2715,8 +2715,8 @@ int count = 0;
 int
 Value::print_stale(ostream & out)
 {
-std::basic_string<const Value *> stale_vals;
-std::basic_string<const DynamicObject *> stale_dobs;
+std::vector<const Value *> stale_vals;
+std::vector<const DynamicObject *> stale_dobs;
 bool goon = true;
 int count = 0;
 

@@ -132,7 +132,7 @@ public:
       { return the_workspace.top_SI; }
 
    /// copy all allocated symbols into \b table of size \b table_size
-   static std::basic_string<const Symbol *> get_all_symbols()
+   static std::vector<const Symbol *> get_all_symbols()
       { return the_workspace.symbol_table.get_all_symbols(); }
 
    /// lookup an existing user defined symbol. If not found, create one
@@ -323,7 +323,7 @@ protected:
    UCS_string prompt;
 
    /// user defined functions that were ⎕EX'ed while on the SI stack
-   std::basic_string<const UserFunction *> expunged_functions;
+   std::vector<const UserFunction *> expunged_functions;
 
    /// more info about last error
    UCS_string more_error_info;

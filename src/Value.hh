@@ -293,7 +293,7 @@ public:
    /// return member of this value, defined by \b members. The first name in
    /// members is the deepest, while the last name is the name of the
    /// variable containing the members (and is only used in error printouts).
-   Cell * get_member(const std::basic_string<const UCS_string *> & members,
+   Cell * get_member(const std::vector<const UCS_string *> & members,
                      Value * & owner, bool create_if_needed,
                      bool throw_error);
 
@@ -307,13 +307,13 @@ public:
 
    /// store the row numbers (starting at 0) so that this[rows] is sorted
    /// in result. Only used rows are returned.
-   void sorted_members(std::basic_string<ShapeItem> & result,
+   void sorted_members(std::vector<ShapeItem> & result,
                        const Unicode * filter) const;
 
    /// store the row numbers (starting at 0) in result so that this[rows]
    /// is a (used) row, maybe sorted.
    /// in result. Only used rows are returned.
-   void used_members(std::basic_string<ShapeItem> & result, bool sorted) const;
+   void used_members(std::vector<ShapeItem> & result, bool sorted) const;
 
    /// return the number of (valid) members, as per this[1;]
    ShapeItem get_member_count() const;

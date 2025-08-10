@@ -205,7 +205,7 @@ TD(TOK_Quad_NA       , TC_FUN2      , TV_FUN  , ID_Quad_NA      )
 TD(TOK_Quad_NC       , TC_FUN1      , TV_FUN  , ID_Quad_NC      )
 TD(TOK_Quad_NL       , TC_FUN2      , TV_FUN  , ID_Quad_NL      )
 TD(TOK_Quad_PLOT     , TC_FUN2      , TV_FUN  , ID_Quad_PLOT    )
-TD(TOK_Quad_PNG      , TC_FUN2      , TV_FUN  , ID_Quad_PNG     )
+// TD(TOK_Quad_PNG      , TC_FUN2      , TV_FUN  , ID_Quad_PNG     )
 TD(TOK_Quad_RVAL     , TC_FUN2      , TV_FUN  , ID_Quad_RVAL    )
 TD(TOK_Quad_SVO      , TC_FUN2      , TV_FUN  , ID_Quad_SVO     )
 

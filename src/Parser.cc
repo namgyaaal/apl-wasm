@@ -81,7 +81,7 @@ Parser::parse(const Token_string & input, Token_string & tos,
 
    // split input line into statements (separated by ◊)
    //
-std::basic_string<Token_string *> statements;
+vector<Token_string *> statements;
    {
      Token_string * stat = new Token_string();
      int curly_depth = 0;
@@ -777,7 +777,7 @@ bool progress = false;
    //
    // The optimization starts at "6" (end of statement) and restarts at ")".
    //
-basic_string<ShapeItem> ends;
+vector<ShapeItem> ends;
    ends.push_back(tos.size());
 
    // tos is in forward (aka. APL) order. We move backwards from the end
@@ -938,7 +938,7 @@ const VoidCount ret = VoidCount(tos.size() - dst);
 ErrorCode
 Parser::match_par_bra(Token_string & tos, bool backwards)
 {
-std::basic_string<ShapeItem> stack;
+std::vector<ShapeItem> stack;
    loop(s, tos.size())
        {
          const ShapeItem t = backwards ? (tos.size() - 1) - s : s;

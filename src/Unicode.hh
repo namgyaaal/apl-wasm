@@ -24,7 +24,7 @@
 #ifndef __UNICODE_HH_DEFINED__
 #define __UNICODE_HH_DEFINED__
 
-#ifndef __COMMON_HH_DEFINED__
+#ifndef __COMMON_HH_DEFINED__ 
 # error This file shall NOT be #included directly, but by #including Common.hh
 #endif
 

@@ -221,7 +221,7 @@ protected:
            std::vector<Shape> shapes;
 
            /// the indices along the pick
-           std::basic_string<ShapeItem> indices;
+           std::vector<ShapeItem> indices;
       };
 
    /// compute 10 ⎕CR recursively

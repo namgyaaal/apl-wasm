@@ -1443,7 +1443,7 @@ UTF8_string result_utf8 = out.get_data();
 
    // result_utf8 may have multiple lines. Remember where the lines start.
    //
-std::basic_string<ShapeItem> line_starts;
+std::vector<ShapeItem> line_starts;
    line_starts.push_back(0);   // the first line
    loop(r, result_utf8.size())
       {

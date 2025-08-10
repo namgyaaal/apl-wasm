@@ -70,7 +70,7 @@ VH_entry::print_history(ostream & out, const Value & val, const char * loc)
 {
    // search backwards for events of val.
    //
-std::basic_string<const VH_entry *> var_events;
+std::vector<const VH_entry *> var_events;
 int cidx = VH_entry::idx;
 
    loop(e, VALUEHISTORY_SIZE)
