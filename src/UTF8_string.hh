@@ -34,13 +34,12 @@ using namespace std;
 
 class UCS_string;
 class Value;
-
 //----------------------------------------------------------------------------
 /// one byte (= 7-bit character !) of an ASCII string
 typedef char ASCII;
 
 /// one byte (not character !( of a UTF8 encoded Unicode (RFC 3629) string
-typedef uint8_t UTF8;
+typedef char8_t UTF8;
 
 //----------------------------------------------------------------------------
 /// frequently used cast to const UTF8 *

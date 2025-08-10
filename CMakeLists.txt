@@ -9,8 +9,8 @@ set(PCRE2_BUILD_PCRE2_32 ON CACHE BOOL "Build 32 bit PCRE2 library" FORCE)
 add_subdirectory(pcre2)
 
 add_compile_options(-w)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fmax-errors=5")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fmax-errors=5")
+# Prevent templating spamming the log 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fmax-errors=2")
 
 file(GLOB_RECURSE SRC_FILES src/*.hh src/*.cc src/*.icc src/*.h)
 add_executable(apl_wasm ${SRC_FILES})
