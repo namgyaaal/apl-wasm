@@ -32,7 +32,7 @@
 #include <string>
 
 /// One Unicode character
-enum Unicode
+enum Unicode 
 {
 #define char_def(name, uni, _tag, _flags, _av_pos) UNI_ ## name = uni,
 #define char_uni(name, uni, _tag, _flags)          UNI_ ## name = uni,
@@ -133,6 +133,5 @@ struct UnicodeCharTraits
 };
 
 using UnicodeString = std::basic_string<Unicode, UnicodeCharTraits>;
-
 
 #endif // __UNICODE_HH_DEFINED__
