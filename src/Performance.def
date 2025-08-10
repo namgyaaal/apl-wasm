@@ -1,0 +1,115 @@
+
+// windows seems to #define _B and/or _AB. We therefore #undef it here to be
+// on the safe side.
+//
+#ifdef _B
+# undef _B
+#endif
+
+#ifdef _AB
+# undef _AB
+#endif
+
+/// monadic cell performance
+#ifndef perfo_1
+# define perfo_1(_id, _args, _APL, _thres)
+#endif
+
+//      Pfstat_ID name   args   APL         threashold                Pfstat_ID
+perfo_1(F12_PLUS       , _B,  "  + B",      8888888888888888888ULL)   //  0
+perfo_1(F12_MINUS      , _B,  "  - B",      8888888888888888888ULL)   //  1
+perfo_1(F12_TIMES      , _B,  "  × B",      8888888888888888888ULL)   //  2
+perfo_1(F12_DIVIDE     , _B,  "  ÷ B",      8888888888888888888ULL)   //  3
+perfo_1(F12_WITHOUT    , _B,  "  ∼ B",      8888888888888888888ULL)   //  4
+perfo_1(F12_RND_UP     , _B,  "  ⌈ B",      8888888888888888888ULL)   //  5
+perfo_1(F12_RND_DN     , _B,  "  ⌊ B",      8888888888888888888ULL)   //  6
+perfo_1(F12_BINOM      , _B,  "  ! B",      8888888888888888888ULL)   //  7
+perfo_1(F12_POWER      , _B,  "  ⋆ B",      8888888888888888888ULL)   //  8
+perfo_1(F12_LOGA       , _B,  "  ⍟ B",      8888888888888888888ULL)   //  9
+perfo_1(F12_CIRCLE     , _B,  "  ○ B",      8888888888888888888ULL)   // 10
+perfo_1(F12_STILE      , _B,  "  ∣ B",      8888888888888888888ULL)   // 11
+perfo_1(F12_ROLL       , _B,  "  ? B",      8888888888888888888ULL)   // 12
+
+/// dyadic cell performance
+#ifndef perfo_2
+# define perfo_2(_id, _args, _APL, _thres)
+#endif
+
+perfo_2(F12_PLUS       , _AB, "A + B",      8888888888888888888ULL)   // 13
+perfo_2(F12_MINUS      , _AB, "A - B",      8888888888888888888ULL)   // 14
+perfo_2(F12_TIMES      , _AB, "A × B",      8888888888888888888ULL)   // 15
+perfo_2(F12_DIVIDE     , _AB, "A ÷ B",      8888888888888888888ULL)   // 16
+perfo_2(F2_AND         , _AB, "A ∧ B",      8888888888888888888ULL)   // 17
+perfo_2(F2_AND_B       , _AB, "A ⊤∧ B",     8888888888888888888ULL)   // 18
+perfo_2(F2_OR          , _AB, "A ∨ B",      8888888888888888888ULL)   // 19
+perfo_2(F2_OR_B        , _AB, "A ⊤∨ B",     8888888888888888888ULL)   // 20
+perfo_2(F2_NAND        , _AB, "A ⍲ B",      8888888888888888888ULL)   // 21
+perfo_2(F2_NAND_B      , _AB, "A ⊤⍲ B",     8888888888888888888ULL)   // 22
+perfo_2(F2_NOR         , _AB, "A ⍱ B",      8888888888888888888ULL)   // 23
+perfo_2(F2_NOR_B       , _AB, "A ⊤⍱ B",     8888888888888888888ULL)   // 24
+perfo_2(F12_RND_UP     , _AB, "A ⌈ B",      8888888888888888888ULL)   // 25
+perfo_2(F12_RND_DN     , _AB, "A ⌊ B",      8888888888888888888ULL)   // 26
+perfo_2(F12_BINOM      , _AB, "A ! B",      8888888888888888888ULL)   // 27
+perfo_2(F12_POWER      , _AB, "A ⋆ B",      8888888888888888888ULL)   // 28
+perfo_2(F12_LOGA       , _AB, "A ⍟ B",      8888888888888888888ULL)   // 29
+perfo_2(F2_LESS        , _AB, "A < B",      8888888888888888888ULL)   // 30
+perfo_2(F2_LEQU        , _AB, "A ≤ B",      8888888888888888888ULL)   // 31
+perfo_2(F2_EQUAL       , _AB, "A = B",      8888888888888888888ULL)   // 32
+perfo_2(F2_EQUAL_B     , _AB, "A = B",      8888888888888888888ULL)   // 33
+perfo_2(F2_UNEQU       , _AB, "A ≠ B",      8888888888888888888ULL)   // 34
+perfo_2(F2_UNEQ_B      , _AB, "A ⊤≠ B",     8888888888888888888ULL)   // 35
+perfo_2(F2_GREATER     , _AB, "A > B",      8888888888888888888ULL)   // 36
+perfo_2(F2_MEQU        , _AB, "A ≥ B",      8888888888888888888ULL)   // 37
+perfo_2(F12_CIRCLE     , _AB, "A ○ B",      8888888888888888888ULL)   // 38
+perfo_2(F12_STILE      , _AB, "A ∣ B",      8888888888888888888ULL)   // 39
+perfo_2(F2_FIND        , _AB, "A ⋸ B",      8888888888888888888ULL)   // 40
+
+/// APL performance statistics
+#ifndef perfo_3
+# define perfo_3(_id, _args, _APL, _thres)
+#endif
+
+/// other performance statistics
+#ifndef perfo_4
+# define perfo_4(_id, _args, _APL, _thres)
+#endif
+
+perfo_4(SCALAR         , _B,  "  scalar B", 8888888888888888888ULL)   // 41
+perfo_4(SCALAR         , _AB, "A scalar B", 8888888888888888888ULL)   // 42
+perfo_4(clone          , _B,  "clone B",    8888888888888888888ULL)   // 43
+perfo_3(OPER2_INNER    , _AB, "A f.g B",    8888888888888888888ULL)   // 44
+perfo_3(OPER2_OUTER    , _AB, "A ∘.g B",    8888888888888888888ULL)   // 45
+perfo_3(F12_RHO        , _AB, "A ⍴ B",      8888888888888888888ULL)   // 46
+perfo_4(PrintBuffer    , _B,  "PrintBuffer(B)", -1)                   // 47
+perfo_4(PrintBuffer1   , _B,  "PrintBuffer1  ", -1)                   // 48
+perfo_4(PrintBuffer2   , _B,  "PrintBuffer2  ", -1)                   // 49
+perfo_4(PrintBuffer3   , _B,  "PrintBuffer3  ", -1)                   // 50
+perfo_4(PrintBuffer4   , _B,  "PrintBuffer4  ", -1)                   // 51
+perfo_4(PrintBuffer5   , _B,  "PrintBuffer5  ", -1)                   // 52
+perfo_4(COUT           , _B,  "COUT", -1)                             // 53
+perfo_4(CERR           , _B,  "CERR", -1)                             // 54
+perfo_4(M_join         , _B,  "M_join(AB)", -1)                       // 55
+perfo_4(M_join         , _AB, "M_join(B)",  -1)                       // 56
+
+#ifndef optim
+# define optim(_ena, _tag, _text)
+#endif
+
+// select optimizations. Use 0 or 1 for individual optimizations or
+// FT_ANY or RT_ANY to enable ebntire groups (in file Performance.hh)
+//
+optim(FT_ANY, FT_LABEL_LITERAL,   "⎕FX Time: Label to integer literal")   // 0
+optim(FT_ANY, FT_DIRECT_BRANCHES, "⎕FX Time: Unconditional branches"  )   // 1
+optim(FT_ANY, FT_LITERAL_AXIS,    "⎕FX Time: Literal axis [X]"        )   // 2
+optim(FT_ANY, FT_LITERAL_INDEX,   "⎕FX Time: Literal index [X1;...]"  )   // 3
+optim(FT_ANY, FT_SHORT_PRIMITIVE, "⎕FX Time: Short primitives"        )   // 4
+optim(RT_ANY, RT_A_RHO_B,         "Run Time: In-place A⍴B"            )   // 5
+optim(RT_ANY, RT_COMMA_B,         "Run Time: In-place ,B"             )   // 6
+optim(RT_ANY, RT_COMMA1_B,        "Run Time: In-place ⍪B"             )   // 7
+
+#undef optim
+#undef perfo_1
+#undef perfo_2
+#undef perfo_3
+#undef perfo_4
+

@@ -1,0 +1,349 @@
+/*
+    This file is part of GNU APL, a free implementation of the
+    ISO/IEC Standard 13751, "Programming Language APL, Extended"
+
+    Copyright © 2023-2023  Dr. Jürgen Sauermann
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/** @file
+ */
+
+#if LA_DEBUG
+
+//============================================================================
+/// a clone of an FMatrix that destroys itself
+template<typename T>
+class DebugMatrix : public LA_pack::fMatrix<T>
+{
+   typedef LA_pack::fMatrix<T> fMatrix;
+
+public:
+   /// constructor: M×N unit matrix
+   DebugMatrix(const char * nm, Crow M, Ccol N)
+   : fMatrix(allocate(nm, /* no data */ 0, M, N), M, N, M),
+     name(nm)
+     {
+       ALL_ROWS(M)
+       ALL_COLS(N)   at(row, col) = T(row == col ? 1.0 : 0.0);
+     }
+
+   /// constructor: copy from matrix \b other
+   DebugMatrix(const char * nm, const fMatrix & other)
+   : fMatrix(allocate(nm, &other.diag(0),   // data()
+                     other.get_row_count(),
+                     other.get_column_count()),
+            other.get_row_count(),
+            other.get_column_count(),
+            other.get_dx()),
+     name(nm)
+   {}
+
+   /// constructor: ID(n) with the lower right corner filled with \b other
+   DebugMatrix(const char * nm, const fMatrix & other, int N, int N1)
+   : fMatrix(allocate(nm, &other.diag(0), N, N), N, N, N),
+            name(nm)
+     {
+       // start with the unit matrix
+       //
+       ALL_ROWS(N)
+       ALL_COLS(N)   at(row, col) = T(row == col ? 1.0 : 0.0);
+
+       // imbed other in the lower right corner
+       //
+        ALL_ROWS(N - N1)
+        ALL_COLS(N - N1)   at(N1 + row, N1 + col) = other.at(row, col);
+   }
+
+   /** constructor: Householder matrix H from vector V of length N
+
+        H is ID - 2×v∘v°
+    **/
+   DebugMatrix(const char * nm, const T * v, Ccol N, T tau)
+   : fMatrix(allocate(nm, 0, N, N), N, N, N),
+     name(nm)
+      {
+        const APL_Float norm = LA_pack::norm_2(v , N);
+        ALL_ROWS(N)
+        ALL_COLS(N)
+           {
+             const T vv = tau * T(2.0) * v[row] * v[col] / norm;
+             if (row == col)   at(row, col) = T(1.0 - vv);
+             else              at(row, col) = T(-vv);
+           }
+      }
+  
+   /// destructor
+   ~DebugMatrix()
+      {
+        const Crow M = LA_pack::fMatrix<T>::get_row_count();
+        const Ccol N = LA_pack::fMatrix<T>::get_column_count();
+        T & end = LA_pack::fMatrix<T>::data[M*N];
+        if (name != reinterpret_cast<const char * &>(end))
+           CERR << "*** Corrupt DebugMatrix " << name << endl;
+
+        if (LA_pack::fMatrix<T>::data)
+           {
+             CERR << "deleting DebugMatrix '" << name << "'" << endl;
+             delete[] LA_pack::fMatrix<T>::data;
+             const_cast<T * &>(LA_pack::fMatrix<T>::data) = 0;
+           }
+      }
+
+   /// the matrix item at (row, col)
+   const T & at(Crow row, Ccol col) const
+      { return fMatrix::at(row, col); }
+
+   /// the matrix item at (row, col)
+   T & at(Crow row, Ccol col)
+      { return fMatrix::at(row, col); }
+
+   /// init \b this with A ∘ B
+   void product(const fMatrix & A, const fMatrix & B)
+      {
+        ALL_ROWS(A.get_row_count())
+        ALL_COLS(B.get_column_count())
+           {
+             T sum(0.0);
+             loop(j, A.get_column_count())
+             sum += A.at(row, j) * B.at(j, col);
+             at(row, col) = sum;
+           }
+      }
+
+protected:
+   /// constructor helper: allocate memory and init with \b src.
+   static T * const allocate(const char * nm, const T * src, Crow M, Ccol N)
+      {
+        // CERR << "allocating " << nm << "[" << M << "×" << N << "]" << endl;
+        const int bytes = M * N * sizeof(T) + sizeof(const char *);
+        char * dest = new char[bytes];
+        if (src)   memcpy(dest, src, bytes);
+        T * ret = reinterpret_cast<T *>(dest);
+        T & end  = ret[M * N];
+        reinterpret_cast<const char * &>(end) = nm;
+        return ret;
+      }
+
+   const char * name;
+};
+//============================================================================
+/// print a real matrix or vector item
+inline void
+print_item(const LA_pack::DD & dd)
+{
+   CERR << "  ";
+   if (dd == 0)                       // exactly 0
+      { CERR << "  0   ";   return; }
+
+   if (dd <= 1e-14 && dd >= -1e-14)   // near 0
+      { CERR << " ≈0   ";   return; }
+
+const LA_pack::DD rounded = round(dd);
+   if ((rounded - dd) <= 1e-14 && (rounded - dd) >= -1e-14)   // near integer
+      {
+        CERR << std::right;
+        if (dd > 0)   CERR << setw(3) << int(dd + 0.5) << "    ";
+        else          CERR << setw(3) << int(dd - 0.5) << "    ";
+        CERR << std::left;
+        return;
+      }
+
+char cc[40];
+   if (dd < 0)   { SPRINTF(cc, "¯%-6.2f", -dd) }
+   else          { SPRINTF(cc, "%6.3f", dd)   }
+   CERR << cc;
+}
+//----------------------------------------------------------------------------
+
+/// print a complex matrix or vector item
+inline void
+print_item(const LA_pack::ZZ & zz)
+{
+char cc[100];
+   SPRINTF(cc, "%.2fj%.2f", zz.real(), zz.imag());
+   CERR << "  " << setw(13) << cc;
+}
+//----------------------------------------------------------------------------
+
+
+/// print vector \b data of length N
+template<class T>
+void
+print_vector(const char * title, const T * data, int N)
+{
+  CERR << title << "[" << N << "]:" << setprecision(2);
+  ALL_COLS(N)   print_item(data[col]);
+  CERR << endl;
+}
+//----------------------------------------------------------------------------
+/// print a matrix
+template<class T>
+void
+print_matrix(const char * title, const LA_pack::fMatrix<T> & A)
+{
+const Crow M = A.get_row_count();
+const Ccol N = A.get_column_count();
+  CERR << title << "[" << M << ":" << N << "]:" << endl << setprecision(2);
+  ALL_ROWS(M)
+     {
+       ALL_COLS(N)   print_item(A.at(row, col));
+       CERR << endl;
+     }
+}
+//--------------------------------------------------------------------------
+inline Ccol
+un_pivot(const Ccol * pivot, int len, Ccol col)
+{
+   if (pivot == 0)   return col;   // no pivoting
+
+   if (col >= len)   return col;
+
+   loop(j, len)   if (pivot[j] == col)   return j;
+
+   // explain why col was nor found.
+   //
+   CERR << "*** could not find column " << col << " in pivot[" << len << "]:";
+   loop(j, len) CERR << " " << pivot[j];
+   CERR << endl;
+   return -1;
+}
+//----------------------------------------------------------------------------
+/// print the inner product A∘B (or Q∘R)
+template<class T>
+void
+print_product(const char * title,
+              const LA_pack::fMatrix<T> & A,   // Q
+              const LA_pack::fMatrix<T> & B,   // R
+              const Ccol * pivot,
+              bool transpose_B)
+{
+const Crow MA = A.get_row_count();
+const Ccol NA =  A.get_column_count();
+#define    MB  (B.get_row_count() )
+const Ccol NB = B.get_column_count();
+   assert(NA == MB);
+
+  CERR << title << "[" << MA << ":" << NB << "]:" << endl << setprecision(2);
+  ALL_ROWS(MA)
+     {
+       ALL_COLS(NB)
+          {
+            // find the column pcol with pivot[pcol] == col.
+            // i.e. invert the mapping col → pivot[col]
+            Ccol pcol = un_pivot(pivot, NB, col);
+
+            T sum(0);
+            loop(j, NA)
+                {
+                  if (transpose_B)   sum += A.at(row, j) * B.at(pcol, j);
+                  else               sum += A.at(row, j) * B.at(j, pcol);
+                }
+            print_item(sum);
+          }
+       CERR << endl;
+     }
+}
+//----------------------------------------------------------------------------
+/// Print the result of a QR factorization geqpX()
+
+/** Print the inner product Q∘R. Both Q and R are contained in A:
+
+    ┌───QR───┐
+    │ \      │
+    │  \  R  │ The diagonal of A belongs to the upper-triangulat R, and
+    │   \    │ the diagonal lower triangle is provided in tau.
+    │    \   │
+    │  Q  \  │ NOTE thar Q in QR is NOT the orthogonal factor of B = Q ∘ R
+    │      \ │ itself, but rather the reflectors that turn ID into the
+    │       \│ orthogonal factor which is computed by ung2r() below.
+    └────────┘
+
+    And: A ∘ P = Q ∘ R
+ **/
+template<class T>
+void
+print_QR(const char * title, const LA_pack::fMatrix<T> & B,
+         const LA_pack::fMatrix<T> & HR, LA_pack::PTVVy<T> & ptvvy)
+{
+const Ccol M = HR.get_row_count();
+const Ccol N = HR.get_column_count();
+
+   // convert reflectors in B to orthogonal matrix Q
+   //
+DebugMatrix<T> R("R", N, N);   // the upper triangle R of Q∘R
+
+   ALL_ROWS(N)
+   ALL_COLS(N)
+      {
+        R.at(row, col) = T(0.0);   // fallback
+        if (row <= col)    R.at(row, col) = HR.at(row, col);
+      }
+
+   CERR << "──────────────────────────────────────────" << endl;
+   print_matrix("print_QR(): the laqp2() input B", B);
+   ptvvy.print_pivot(CERR, N, LOC);
+   print_matrix("print_QR(): the laqp2() output HR", HR);
+   ptvvy.print_pivot(CERR, N, LOC);
+
+   print_matrix("\nThe upper triangular factor R of HR", R);
+
+const size_t max_MN = M > N ? M : N;
+DebugMatrix<T> QC("C", max_MN, max_MN);        // a mutable copy of HR
+   ALL_ROWS(N)
+   ALL_COLS(N)
+      {
+        if (row < M && col < N)   QC.at(row, col) = HR.at(row, col);
+        else if (row == col)      QC.at(row, col) = T(1.0);
+        else                      QC.at(row, col) = T(0.0);
+      }
+
+   print_matrix("print_QR(): reflectors before ung2r() = H", QC);
+   LA_pack::ung2r<T>(QC, ptvvy);
+   print_matrix("print_QR(): factor Q of Q∘R after ung2r()", QC);
+   print_vector("print_QR(): vector tau after ung2r()", ptvvy.tau, N);
+   print_product("print_QR(): Q∘⍉Q", QC, QC, ptvvy.pivot, true);
+
+// DebugMatrix<T> QB("Q", B);
+// ALL_ROWS(N)
+// ALL_COLS(N) if (row < col)   QB.at(row, col) = QB.at(col, row);
+
+   print_product("print_QR(): the product Q∘R (supposedly Q∘R=B)",
+                 QC, R, ptvvy.pivot, false);
+   CERR << "──────────────────────────────────────────" << endl;
+}
+//--------------------------------------------------------------------------
+
+#else   // not  LA_DEBUG
+
+template<class T> inline void print_vector(const char * title,
+                                           const T * data, int N) {}
+
+template<class T> inline void print_matrix(const char * title,
+                                           const LA_pack::fMatrix<T> & A) {}
+
+template<class T>inline  void print_product(const char * title,
+                                            const LA_pack::fMatrix<T> & A,
+                                            const LA_pack::fMatrix<T> & B,
+                                            const Ccol * pivot,
+                                            bool transpose_B) {}
+
+template<class T> inline void print_QR(const char * title,
+                                       const LA_pack::fMatrix<T> & B,
+                                       const LA_pack::fMatrix<T> & QR,
+                                       LA_pack::PTVVy<T> & ptvvy) {}
+
+#endif
+

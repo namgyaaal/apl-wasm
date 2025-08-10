@@ -1,0 +1,31 @@
+
+#include "NumericCell.hh"
+#include "IntCell.hh"
+
+//----------------------------------------------------------------------------
+ErrorCode
+NumericCell::zV(Cell * Z, APL_Float flt)
+{
+   if (!is_near_int64_t(flt))   return FloatCell::zF(Z, flt);
+
+   return flt < 0 ? IntCell::zI(Z, -int64_t(0.5 - flt))
+                  : IntCell::zI(Z,  int64_t(0.5 + flt));
+}
+//----------------------------------------------------------------------------
+ErrorCode
+NumericCell::zV(Cell * Z, APL_Complex cpx)
+{
+   return is_near_zero(cpx.imag()) ? NumericCell::zV(Z, cpx.real())
+                                   : ComplexCell::zC(Z, cpx);
+}
+//----------------------------------------------------------------------------
+ErrorCode
+NumericCell::zV(Cell * Z, APL_Float real, APL_Float imag)
+{
+   return is_near_zero(imag) ? NumericCell::zV(Z, real)
+                             : ComplexCell::zC(Z, real, imag);
+}
+//----------------------------------------------------------------------------
+
+
+

@@ -1,0 +1,236 @@
+/*
+    This file is part of GNU APL, a free implementation of the
+    ISO/IEC Standard 13751, "Programming Language APL, Extended"
+
+    Copyright © 2008-2023  Dr. Jürgen Sauermann
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/** @file
+*/
+
+#ifndef __VALUE_ICC_DEFINED__
+#define __VALUE_ICC_DEFINED__
+
+#include "CharCell.hh"
+#include "ComplexCell.hh"
+#include "FloatCell.hh"
+#include "IntCell.hh"
+#include "LvalCell.hh"
+#include "PointerCell.hh"
+#include "Value.hh"
+
+//----------------------------------------------------------------------------
+void
+Value::set_proto_Spc()
+{
+  if (is_empty())   CharCell::zU(&get_wproto(), UNI_SPACE);
+}
+//----------------------------------------------------------------------------
+void
+Value::set_proto_Int()
+{
+  if (is_empty())   IntCell::z0(&get_wproto());
+}
+//----------------------------------------------------------------------------
+void
+Value::release(ShapeItem offset, const char * loc)
+{
+   get_wravel(offset).release(loc);
+}
+//----------------------------------------------------------------------------
+void
+Value::set_default(const Value & B, const char * loc)
+{
+  if (is_empty())
+     {
+       Assert1(this->get_cproto().is_integer_cell());   // by constructor
+       const Cell & cell = B.get_cproto();
+       if (cell.is_lval_cell())   new (&get_wproto()) LvalCell(0, 0);
+       else                       get_wproto().init_type(cell, *this, loc);
+     }
+}
+//----------------------------------------------------------------------------
+void
+Value::set_default(const Cell & cB, const char * loc)
+{
+   Assert1(this->get_cproto().is_integer_cell());   // by constructor
+   if (cB.is_lval_cell())   new (&get_wproto()) LvalCell(0, 0);
+   else                     get_wproto().init_type(cB, *this, loc);
+}
+//----------------------------------------------------------------------------
+void
+Value::next_ravel_Char(Unicode u)
+{
+  CharCell::zU(next_ravel(), u);
+}
+//----------------------------------------------------------------------------
+void
+Value::next_ravel_Byte(uint8_t byte)
+{
+  *reinterpret_cast<uint8_t *>(ravel) = byte;
+}
+//----------------------------------------------------------------------------
+void
+Value::next_ravel_Int(APL_Integer i)
+{
+  IntCell::zI(next_ravel(), i);
+}
+//----------------------------------------------------------------------------
+void
+Value::next_ravel_0()
+{
+  IntCell::zI(next_ravel(), 0);
+}
+//----------------------------------------------------------------------------
+void
+Value::next_ravel_1()
+{
+  IntCell::zI(next_ravel(), 1);
+}
+//----------------------------------------------------------------------------
+void
+Value::next_ravel_Float(APL_Float f)
+{
+  FloatCell::zF(next_ravel(), f);
+}
+//----------------------------------------------------------------------------
+void
+Value::next_ravel_Number(APL_Float f)
+{
+  NumericCell::zV(next_ravel(), f);
+}
+//----------------------------------------------------------------------------
+void
+Value::next_ravel_Number(APL_Complex cpx)
+{
+  NumericCell::zV(next_ravel(), cpx);
+}
+//----------------------------------------------------------------------------
+void
+Value::next_ravel_Number(APL_Float real, APL_Float imag)
+{
+  NumericCell::zV(next_ravel(), real, imag);
+}
+//----------------------------------------------------------------------------
+#ifdef cfg_RATIONAL_NUMBERS_WANTED
+void
+Value::next_ravel_Float(APL_Integer numer, APL_Integer denom)
+{
+  FloatCell::zR(next_ravel(), numer, denom);
+}
+#endif // cfg_RATIONAL_NUMBERS_WANTED
+//----------------------------------------------------------------------------
+void
+Value::next_ravel_Complex(APL_Complex cpx)
+{
+  ComplexCell::zC(next_ravel(), cpx);
+}
+//----------------------------------------------------------------------------
+void
+Value::next_ravel_Complex(APL_Float real, APL_Float imag)
+{
+  ComplexCell::zC(next_ravel(), real, imag);
+}
+//----------------------------------------------------------------------------
+void
+Value::next_ravel_Pointer(Value * value)
+{
+  Assert(!value->is_simple_scalar());
+  new (next_ravel()) PointerCell(value, *this);
+}
+//----------------------------------------------------------------------------
+void
+Value::next_ravel_Pointer(Value * value, uint32_t magic)
+{
+  Assert(!value->is_simple_scalar());
+  new (next_ravel()) PointerCell(value, *this, magic);
+}
+//----------------------------------------------------------------------------
+void
+Value::next_ravel_Value(Value * value)
+{
+   if (value->is_simple_scalar())
+      next_ravel()->init(value->get_cfirst(), *this, LOC);
+   else
+      new (next_ravel()) PointerCell(value, *this);
+}
+//----------------------------------------------------------------------------
+void
+Value::next_ravel_Lval(Cell * target, Value * target_owner)
+{
+  new (next_ravel()) LvalCell(target, target_owner);
+}
+//----------------------------------------------------------------------------
+void
+Value::next_ravel_Cell(const Cell & other)
+{
+  other.init_other(next_ravel(), *this, LOC);
+}
+//----------------------------------------------------------------------------
+void
+Value::next_ravel_Proto(const Cell & cell)
+{
+  next_ravel()->init_type(cell, *this, LOC);
+}
+//----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
+void
+Value::set_ravel_Char(ShapeItem offset, Unicode uni)
+{
+   new (&get_wravel(offset))   CharCell(uni);
+}
+//----------------------------------------------------------------------------
+void
+Value::set_ravel_Int(ShapeItem offset, APL_Integer aint)
+{
+   new (&get_wravel(offset))   IntCell(aint);
+}
+//----------------------------------------------------------------------------
+void
+Value::set_ravel_Float(ShapeItem offset, APL_Float flt)
+{
+   new (&get_wravel(offset))   FloatCell(flt);
+}
+//----------------------------------------------------------------------------
+void
+Value::set_ravel_Complex(ShapeItem offset, APL_Float real, APL_Float imag)
+{
+   new (&get_wravel(offset))   ComplexCell(real, imag);
+}
+//----------------------------------------------------------------------------
+void
+Value::set_ravel_Cell(ShapeItem offset, const Cell & cell)
+{
+  get_wravel(offset).init(cell, *this, LOC);
+}
+//----------------------------------------------------------------------------
+void
+Value::set_ravel_Pointer(ShapeItem offset, Value * value)
+{
+  Assert(!value->is_simple_scalar());
+   new (&get_wravel(offset))   PointerCell(value, *this);
+}
+//----------------------------------------------------------------------------
+void
+Value::set_ravel_Value(ShapeItem offset, Value * value)
+{
+   if (value->is_simple_scalar())
+      get_wravel(offset).init(value->get_cfirst(), *this, LOC);
+   else
+      new (&get_wravel(offset)) PointerCell(value, *this);
+}
+//----------------------------------------------------------------------------
+#endif // __VALUE_ICC_DEFINED__

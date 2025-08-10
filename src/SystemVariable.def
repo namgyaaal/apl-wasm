@@ -1,0 +1,175 @@
+/*
+    This file is part of GNU APL, a free implementation of the
+    ISO/IEC Standard 13751, "Programming Language APL, Extended"
+
+    Copyright © 2008-2020  Dr. Jürgen Sauermann
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+// system variables
+#ifdef ro_sv_def
+//          class      ⎕-name   help text
+  ro_sv_def(Quad_AI,   "AI",    "Account Information"          )
+  ro_sv_def(Quad_ARG,  "ARG",   "command line ARGuments"       )
+  ro_sv_def(Quad_AV,   "AV",    "Atomic Vector"                )
+  ro_sv_def(Quad_EM,   "EM",    "Event Message"                )
+  ro_sv_def(Quad_ET,   "ET",    "Event Type"                   )
+  ro_sv_def(Quad_LC,   "LC",    "Line Counters"                )
+  ro_sv_def(Quad_SVE,  "SVE",   "Shared Variable Event"        )
+  ro_sv_def(Quad_TC,   "TC",    "Terminal Control characters"  )
+  ro_sv_def(Quad_TS,   "TS",    "Time Stamp"                   )
+  ro_sv_def(Quad_UL,   "UL",    "User Load"                    )
+  ro_sv_def(Quad_WA,   "WA",    "Workspace Available"          )
+#undef ro_sv_def
+#endif
+
+#ifdef rw_sv_def
+//          class      ⎕-name   help text
+  rw_sv_def(Quad_CT,   "CT",    "Comparison Tolerance"         )
+  rw_sv_def(Quad_FC,   "FC",    "Format Control"               )
+  rw_sv_def(Quad_IO,   "IO",    "Index Origin"                 )
+  rw_sv_def(Quad_L,    "L",     "Left Argument"                )
+  rw_sv_def(Quad_LX,   "LX",    "Latent Expression"            )
+  rw_sv_def(Quad_PP,   "PP",    "Printing Precision"           )
+  rw_sv_def(Quad_PR,   "PR",    "Prompt Replacement"           )
+  rw_sv_def(Quad_PS,   "PS",    "Print Style"                  )
+  rw_sv_def(Quad_PW,   "PW",    "Print Width"                  )
+  rw_sv_def(Quad_R,    "R",     "Right Argment"                )
+  rw_sv_def(Quad_RL,   "RL",    "Random Link"                  )
+  rw_sv_def(Quad_SYL,  "SYL",   "SYstem Limits"                )
+  rw_sv_def(Quad_TZ,   "TZ",    "Time Zone"                    )
+  rw_sv_def(Quad_X,    "X",     "aXis Argument"                )
+  rw_sv_def(LAMBDA,    "",      "{ ... } result"               )
+  rw_sv_def(ALPHA,     "",      "{ ... } left value argument"  )
+  rw_sv_def(OMEGA,     "",      "{ ... } right value argument" )
+  rw_sv_def(CHI,       "",      "{ ... } axis argument"        )
+  rw_sv_def(ALPHA_U,   "",      "{ ... } left function arg"    )
+  rw_sv_def(OMEGA_U,   "",      "{ ... } right function arg"   )
+# undef rw_sv_def
+#endif
+
+// system functions
+#ifdef sf_def
+//       class       ⎕-name   help text
+  sf_def(Quad_AF,    "AF",    "Atomic Function"              )
+  sf_def(Quad_AT,    "AT",    "Attributes"                   )
+  sf_def(Quad_CR,    "CR",    "Character Representation"     )
+  sf_def(Quad_DL,    "DL",    "Delay"                        )
+  sf_def(Quad_DLX,   "DLX",   "D. Knuth's Dancing Links"     )
+  sf_def(Quad_EA,    "EA",    "Execute Alternate"            )
+  sf_def(Quad_EB,    "EB",    "Execute Both"                 )
+  sf_def(Quad_EC,    "EC",    "Execute Controlled"           )
+  sf_def(Quad_ENV,   "ENV",   "ENvironment Variables"        )
+  sf_def(Quad_ES,    "ES",    "Event Simulate"               )
+  sf_def(Quad_EX,    "EX",    "EXpunge"                      )
+  sf_def(Quad_FFT,   "FFT",   "Fast Fourier Transform"       )
+  sf_def(Quad_FIO,   "FIO",   "File I/O, see ⎕FIO ''"        )
+  sf_def(Quad_FX,    "FX",    "FiX"                          )
+  sf_def(Quad_MAP,   "MAP",   "MAP (replace) ravel elements" )
+  sf_def(Quad_INP,   "INP",   "INPut from script"            )
+  sf_def(Quad_NA,    "NA",    "Name Association"             )
+  sf_def(Quad_NC,    "NC",    "Name Class"                   )
+  sf_def(Quad_NL,    "NL",    "Name List"                    )
+  sf_def(Quad_PLOT,  "PLOT",  "Plot a Value"                 )
+  sf_def(Quad_PNG,   "PNG",   "Portable Network Graphics"    )
+  sf_def(Quad_RE,    "RE",    "Regular expression"           )
+  sf_def(Quad_RVAL,  "RVAL",    "Random APL value"           )
+  sf_def(Quad_SI,    "SI",    "State Indicator"              )
+  sf_def(Quad_SVC,   "SVC",   "Shared Variable Control"      )
+  sf_def(Quad_SVO,   "SVO",   "Shared Variable Offer"        )
+  sf_def(Quad_SVQ,   "SVQ",   "Shared Variable Query"        )
+  sf_def(Quad_SVR,   "SVR",   "Shared Variable Retraction"   )
+  sf_def(Quad_SVS,   "SVS",   "Shared Variable State"        )
+  sf_def(Quad_STOP,  "STOP",  "STOP vector"                  )
+  sf_def(Quad_TF,    "TF",    "Transfer Form"                )
+  sf_def(Quad_JSON,  "JSON",   "JSON parser"                 )
+  sf_def(Quad_XML,   "XML",   "XML parser"                   )
+  sf_def(Quad_TRACE, "TRACE", "TRACE vector"                 )
+  sf_def(Quad_UCS,   "UCS",   "Universal Char Set (Unicode)" )
+# undef sf_def
+#endif
+
+// primitive functions
+#ifdef pf_def
+//       class               name    help text
+  pf_def(Bif_F12_COMMA,      ",",    "")
+  pf_def(Bif_F12_COMMA1,     "⍪",    "")
+  pf_def(Bif_F12_DOMINO,     "⌹",    "")
+  pf_def(Bif_F12_FORMAT,     "⍕",    "")
+  pf_def(Bif_F12_INDEX_OF,   "⍳",    "")
+  pf_def(Bif_F12_PARTITION,  "⊂",    "")
+  pf_def(Bif_F12_PICK,       "⊃",    "")
+  pf_def(Bif_F12_SORT_ASC,   "⍋",    "")
+  pf_def(Bif_F12_SORT_DES,   "⍒",    "")
+  pf_def(Bif_F12_TAKE,       "↑",    "")
+  pf_def(Bif_F12_DROP,       "↓",    "")
+  pf_def(Bif_OPER1_COMMUTE,  "⍨",    "")
+  pf_def(Bif_OPER1_EACH,     "¨",    "")
+  pf_def(Bif_OPER1_REDUCE,   "/",    "")
+  pf_def(Bif_OPER1_REDUCE1,  "⌿",    "")
+  pf_def(Bif_OPER1_SCAN,     "\\",   "")
+  pf_def(Bif_OPER1_SCAN1,    "⍀",    "")
+  pf_def(Bif_OPER2_INNER,    "f.g",  "")
+  pf_def(Bif_JOT,            "∘",    "")
+  pf_def(Bif_OPER2_OUTER,    "∘.g",  "")
+  pf_def(Bif_OPER2_POWER,    "⍣",    "")
+  pf_def(Bif_OPER2_RANK,     "⍤",    "")
+  pf_def(Bif_F0_ZILDE,       "⍬",    "")
+  pf_def(Bif_F1_EXECUTE,     "⍎",    "")
+  pf_def(Bif_F2_INDEX,       "⌷",    "")
+  pf_def(Bif_F12_ELEMENT,    "∈",    "")
+  pf_def(Bif_F12_EQUIV,      "≡",    "")
+  pf_def(Bif_F12_NEQUIV,     "≢",    "")
+  pf_def(Bif_F12_ENCODE,     "⊤",    "")
+  pf_def(Bif_F12_DECODE,     "⊥",    "")
+  pf_def(Bif_F12_ROTATE,     "⌽",    "")
+  pf_def(Bif_F12_ROTATE1,    "",     "")
+  pf_def(Bif_F12_TRANSPOSE,  "⊖",    "")
+  pf_def(Bif_F12_RHO,        "⍴",    "")
+  pf_def(Bif_F12_UNION,      "∪",    "")
+  pf_def(Bif_F2_INTER,       "∩",    "")
+  pf_def(Bif_F2_LEFT,        "⊣",    "")
+  pf_def(Bif_F2_RIGHT,       "⊢",    "")
+  pf_def(Bif_F12_BINOM,      "!",    "")
+  pf_def(Bif_F2_LESS,        "<",    "")
+  pf_def(Bif_F2_EQUAL,       "=",    "")
+  pf_def(Bif_F2_EQUAL_B,     "⊤=",   "")
+  pf_def(Bif_F2_UNEQ_B,      "⊤≠",   "")
+  pf_def(Bif_F2_AND,         "∧",    "")
+  pf_def(Bif_F2_AND_B,       "⊤∧",   "")
+  pf_def(Bif_F2_OR,          "∨",    "")
+  pf_def(Bif_F2_OR_B,        "⊤∨",   "")
+  pf_def(Bif_F2_LEQU,        "≤",    "")
+  pf_def(Bif_F2_MEQU,        "≥",    "")
+  pf_def(Bif_F2_UNEQU,       "≠",    "")
+  pf_def(Bif_F2_FIND,        "⋸",    "")
+  pf_def(Bif_F2_NOR,         "⍱",    "")
+  pf_def(Bif_F2_NOR_B,       "⊤⍱",   "")
+  pf_def(Bif_F2_NAND,        "⍲",    "")
+  pf_def(Bif_F2_NAND_B,      "⊤⍲",   "")
+  pf_def(Bif_F12_POWER,      "⋆",    "")
+  pf_def(Bif_F12_PLUS,       "+",    "")
+  pf_def(Bif_F12_MINUS,      "-",    "")
+  pf_def(Bif_F12_ROLL,       "?",    "")
+  pf_def(Bif_F12_WITHOUT,    "∼",    "")
+  pf_def(Bif_F12_TIMES,      "×",    "")
+  pf_def(Bif_F12_DIVIDE,     "÷",    "")
+  pf_def(Bif_F12_CIRCLE,     "○",    "")
+  pf_def(Bif_F12_RND_UP,     "⌈",    "")
+  pf_def(Bif_F12_RND_DN,     "⌊",    "")
+  pf_def(Bif_F12_STILE,      "∣",    "")
+  pf_def(Bif_F12_LOGA,       "⍟",    "")
+# undef pf_def
+#endif

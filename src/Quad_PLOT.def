@@ -1,0 +1,87 @@
+#ifdef gdef
+gdef(String,   caption,        "⎕PLOT", "plot window caption")
+gdef(String,   output_filename,     "", "output file name")
+gdef(uint32_t, auto_close,           0, "= do not close X window automatically)\n"
+"                   (1)             (= close if file was written successfully)\n"
+"                   (2)             (= always close X window automatically")
+gdef(uint32_t, with_border,         1, "= write plot area and window borders)\n"
+"                   (0)             (= write only plot area to output file")
+gdef(Pixel_X,  pw_pos_X,            50, "plot window position X")
+gdef(Pixel_Y,  pw_pos_Y,            50, "plot window position Y")
+gdef(Pixel_X,  border_width,        10, "width of the window border")
+gdef(Pixel_X,  pa_width,           600, "plotarea width")
+gdef(Pixel_Y,  pa_height,          400, "plotarea height")
+gdef(Pixel_X,  pa_border_L,         50, "pixels left of the plotarea")
+gdef(Pixel_X,  pa_border_R,         20, "pixels right of the plotarea")
+gdef(Pixel_Y,  pa_border_T,         25, "pixels above the plotarea")
+gdef(Pixel_Y,  pa_border_B,         25, "pixels below the plotarea")
+gdef(uint32_t, gridX_style,          1, "X grid style = ──────── )\n"
+"                   (2)             (             = ╴╴╴╴╴╴╴╴ )\n"
+"                   (3)             (             = ─╴─╴─╴─╴ ")
+gdef(uint32_t, axisX_arrow,          0, "X-axis arrow")
+gdef(String,   axisX_label,        "X", "X-axis label")
+gdef(uint32_t, axisY_arrow,          0, "Yaxis arrow")
+gdef(String,   axisY_label,        "Y", "Y-axis label")
+gdef(uint32_t, axisZ_arrow,          0, "Z-axis arrow")
+gdef(String,   axisZ_label,        "Z", "Z-axis label")
+gdef(Pixel_X,  gridX_pixels,        44, "pixels between X grid lines")
+gdef(uint32_t, gridX_variable,       0, "draw X grid (only) at plot points")
+gdef(Pixel_Y,  gridX_line_width,     1, "thickness of the X-grid lines")
+gdef(Color,    gridX_color,   0x000000, "color of the X-grid lines")
+gdef(uint32_t, gridY_style,          1, "Y grid style, see gridX_style above")
+gdef(Pixel_Y,  gridY_pixels,        33, "pixels between Y grid lines")
+gdef(Pixel_X,  gridY_line_width,     1, "thickness of the Y-grid lines")
+gdef(Color,    gridY_color,   0x000000, "color of the Y-grid lines")
+gdef(uint32_t, gridZ_style,          1, "Z grid style, see gridX_style above")
+gdef(Pixel_Y,  gridZ_pixels,        33, "pixels between Z grid lines")
+gdef(Pixel_X,  gridZ_line_width,     1, "thickness of the Z-grid lines")
+gdef(Color,    gridZ_color,   0x000000, "color of the Z-grid lines")
+gdef(Color,    canvas_color,  0xFFFFFF, "background color of the plot window")
+gdef(Color,    legend_color,  0xF0F0F0, "background color of the legend")
+gdef(Pixel_X,  legend_X,            50, "the X position of the legend")
+gdef(Pixel_Y,  legend_Y,            50, "the Y position of the legend")
+gdef(Pixel_Y,  legend_dY,           15, "the distance between legend lines")
+gdef(Pixel_X,  legend_lX,           50, "the length of the legend lines")
+gdef(double,   rangeX_min,           0, "the start of the X range to be plotted")
+gdef(double,   rangeX_max,           0, "the end of the X range to be plotted")
+gdef(double,   rangeY_min,           0, "the start of the Y range to be plotted")
+gdef(double,   rangeY_max,           0, "the end of the Y range to be plotted")
+gdef(double,   rangeZ_min,           0, "the start of the Z range to be plotted")
+gdef(double,   rangeZ_max,           0, "the end of the Z range to be plotted")
+gdef(Pixel_X,  origin_X,           100, "X position offset of the origin")
+gdef(Pixel_Y,  origin_Y,           100, "Y position offset of the origin")
+gdef(String,   format_X,            "", "format for X-axis ticks (GTK only))\n"
+"                    %sT1%T2...%Tn  (static texts for ticks)\n"
+"                    %G, %g         grid line number (starting at 1 or )\n"
+"                    %v             value\n"
+"                    %S             (seconds SS)\n"
+"                    %I             (minutes MM)\n"
+"                    %H, %h         (hours HH or h/hh)\n"
+"                    %D, %d         (day DD or d/dd)\n"
+"                    %M, %m         (month MM or m/mm)\n"
+"                    %q             (quarter 0..3)\n"
+"                    %Q             (quarter 1..4)\n"
+"                    %Y, %y         (year YYYY or yy")
+gdef(String,   format_Y,            "", "format for Y-axis (dito)")
+gdef(String,   format_Z,            "", "format for Z-axis (dito)")
+#endif
+
+#ifdef ldef
+ldef(Color,    line_color,    0x00FF00, "the color of plot line N")
+ldef(uint32_t, line_style,           1, "line style, see gridX_style above")
+ldef(Pixel_Y,  line_width,           3, "the thickness of plot line N")
+ldef(Color,    point_color,   0x000000, "the color of the plot points")
+ldef(uint32_t, point_style,          1, "= plot_points: ● )\n"
+"                   (2)             (= plot_points: ▲ )\n"
+"                   (3)             (= plot_points: ▼ )\n"
+"                   (4)             (= plot_points: ◆ )\n"
+"                   (5)             (= plot_points: ■ )\n"
+"                   (6)             (= plot_points: 🞤   (GTK only)\n"
+"                   (7)             (= plot_points: 🞫   (GTK only")
+ldef(Pixel_X,  point_size,           8, "the outer diameter of the plot points")
+ldef(Pixel_X,  point_size2,          0, "the inner diameter of the plot points")
+ldef(String,   legend_name,         "", "the name of plot line N in the legend")
+#endif
+
+#undef gdef
+#undef ldef

@@ -1,0 +1,265 @@
+/*
+    This file is part of GNU APL, a free implementation of the
+    ISO/IEC Standard 13751, "Programming Language APL, Extended"
+
+    Copyright © 2008-2020  Dr. Jürgen Sauermann
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should hste received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+   // to maintain )SAVE / )LOAD compatibility, append new items at the end
+   // of their character!
+
+
+// make Solaris happy
+//
+#ifdef ES
+#undef ES
+#endif
+
+//  Id                   UCS        = Value    Macro
+//-------------------------------------------------
+pp( No_ID              , ---       , = 0      )
+pp( No_ID1             , ---       , = 1      )
+pp( No_ID2             , ---       , = 2      )
+pp( No_ID3             , ---       , = 3      )
+pp( FUN                , ---       , = 4      )
+pp( VAR                , ---       , = 5      )
+
+qf( AF                 , "⎕AF"     , = 0x4101 )   // A...
+qv( AI                 , "⎕AI"     ,          )
+qv( ARG                , "⎕ARG"    ,          )
+sf( F2_AND             , "∧"       ,          )
+pp( APL_VALUE1         , ---       ,          )
+pp( APL_VALUE2         , ---       ,          )
+pp( APL_VALUE3         , ---       ,          )
+st( ASSIGN             , "←"       ,          )
+qf( AT                 , "⎕AT"     ,          )
+qv( AV                 , "⎕AV"     ,          )
+st( ALPHA              , "⍺"       ,          )
+st( ALPHA_U            , "⍶"       ,          )
+st( ASSIGN1            , "←"       ,          )
+sf( F2_AND_B           , "⊤∧"       ,         )
+pp( APL_VALUE4         , ---       ,          )
+
+sf( F12_BINOM          , "!"       , = 0x4201 )   // B...
+st( BRANCH             , "→"       ,          )
+
+pp( CHARACTER          , ---       , = 0x4301 )   // C...
+sf( F12_CIRCLE         , "○"       ,          )
+st( COLON              , ":"       ,          )
+sf( F12_COMMA          , ","       ,          )
+sf( F12_COMMA1         , "⍪"       ,          )
+sf( OPER1_COMMUTE      , "⍨"       ,          )
+pp( COMPLEX            , ---       ,          )
+qf( CR                 , "⎕CR"     ,          )
+qv( CT                 , "⎕CT"     ,          )
+st( CHI                , "χ"       ,          )
+
+sf( F12_DECODE         , "⊥"       , = 0x4401 )   // D...
+st( DIAMOND            , "◊"       ,          )
+sf( F12_DIVIDE         , "÷"       ,          )
+qf( DL                 , "⎕DL"     ,          )
+sf( F12_DOMINO         , "⌹"       ,          )
+sf( F12_DROP           , "↓"       ,          )
+qf( DLX                , "⎕DLX"    ,          )
+
+qf( EA                 , "⎕EA"     , = 0x4501 )   // E...
+sf( OPER1_EACH         , "¨"       ,          )
+qf( EC                 , "⎕EC"     ,          )
+sf( F12_ELEMENT        , "ϵ"       ,          )
+qv( EM                 , "⎕EM"     ,          )
+sf( F12_ENCODE         , "⊤"       ,          )
+pp( END                , ---       ,          )
+pp( ENDL               , ---       ,          )  // last END in line
+qf( ENV                , "⎕ENV"    ,          )
+sf( F2_EQUAL           , "="       ,          )
+sf( F12_EQUIV          , "≡"       ,          )
+pp( ERROR              , ---       ,          )
+qf( ES                 , "⎕ES"     ,          )
+st( ESCAPE             , "→"       ,          )
+qv( ET                 , "⎕ET"     ,          )
+qf( EX                 , "⎕EX"     ,          )
+sf( F1_EXECUTE         , "⍎"       ,          )
+pp( ES_EXEC            , ---       ,          )
+qf( EB                 , "⎕EB"     ,          )
+sf( F2_EQUAL_B         , "⊤="      ,          )
+pp( ES_BRA             , ---       ,          )
+pp( ES_COM             , ---       ,          )
+pp( ES_ERR             , ---       ,          )
+pp( ES_ESC             , ---       ,          )
+
+qv( FC                 , "⎕FC"     , = 0x4601 )   // F...
+sf( F2_FIND            , "⍷"       ,          )
+pp( FIRST_TIME         , ---       ,          )
+sf( F12_FORMAT         , "⍕"       ,          )
+qf( FX                 , "⎕FX"     ,          )
+qf( FIO                , "⎕FIO"    ,          )
+qf( FFT                , "⎕FFT"    ,          )
+
+sf( F2_GREATER         , ">"       , = 0x4701 )   // G...
+st( GOTO_PC            , "→PC"     ,          )
+
+sf( F2_INDEX           , "⌷"       , = 0x4901 )   // I...
+sf( F12_INDEX_OF       , "⍳"       ,          )
+pp( INTEGER            , ---       ,          )
+pp( INVALID            , ---       ,          )
+qv( IO                 , "⎕IO"     ,          )
+qf( INP                , "⎕INP"    ,          )
+sf( F2_INTER           , "∩"       ,          )
+sf( OPER2_INNER        , "."       ,          )
+sf( F12_INTERVAL_INDEX , "⍸"       ,          )
+st( IF_ELSE            , "←→"      ,          )
+st( IF_END             , "←←"      ,          )
+st( IF_THEN            , "→→"      ,          )
+
+sf( JOT           , "∘"            , = 0x4A01 )   // C...
+qf( JSON               , "⎕JSON"   ,          )
+
+qv( L                  , "⎕L"      , = 0x4C01 )   // L...
+st( L_BRACK            , "["       ,          )
+st( L_CURLY            , "{"       ,          )
+st( L_PARENT           , "("       ,          )
+qv( LC                 , "⎕LC"     ,          )
+sf( F2_LEFT            , "⊣"       ,          )
+sf( F2_LEQU            , "≤"       ,          )
+sf( F2_LESS            , "<"       ,          )
+sf( F12_LOGA           , "⍟"       ,          )
+pp( LVAL               , ---       ,          )
+qv( LX                 , "⎕LX"     ,          )
+st( LAMBDA             , "λ"       ,          )
+
+sf( F2_MEQU            , "≥"       , = 0x4D01 )   // M...
+sf( F12_MINUS          , "-"       ,          )
+st( MACRO              , "MACRO"   ,          )
+qf( MAP                , "⎕MAP"    ,          )
+
+qf( NA                 , "⎕NA"     , = 0x4E01 )
+sf( F2_NAND            , "⍲"       ,          )
+qf( NC                 , "⎕NC"     ,          )
+qf( NL                 , "⎕NL"     ,          )
+  /**  ⎕NLT removed                       **/
+pp( NO_VALUE           , ---       , = 0x4E06 )   // N...
+sf( F2_NOR             , "⍱"       ,          )
+sf( F12_NEQUIV         , "≢"       ,          )
+sf( F2_NAND_B          , "⊤⍲"      ,          )
+sf( F2_NOR_B            , "⊤⍱"     ,          )
+
+pp( OFF                , ---       , = 0x4F01 )   // O...
+sf( F2_OR              , "∨"       ,          )
+st( OMEGA              , "⍵"       ,          )
+st( OMEGA_U            , "⍹"       ,          )
+sf( OPER2_OUTER        , "∘."      ,          )
+sf( F2_OR_B            , "⊤∨"      ,          )
+
+sf( F12_PARTITION      , "⊂"       , = 0x5001 )   // P...
+sf( F12_PICK           , "⊃"       ,          )
+sf( F12_PLUS           , "+"       ,          )
+sf( F12_POWER          , "⋆"       ,          )
+qv( PP                 , "⎕PP"     ,          )
+qv( PR                 , "⎕PR"     ,          )
+qv( PS                 , "⎕PS"     ,          )
+  /** ⎕PT            removed              **/
+  /**  OPER2_PRODUCT removed              **/
+qv( PW                 , "⎕PW"     , = 0x5009 )   // P...
+sf( OPER2_POWER        , "⍣"       ,          )
+qf( PLOT               , "⎕PLOT"   ,          )
+qf( PNG                , "⎕PNG"     ,          )
+
+st( Quad_Quad          , "⎕"       , = 0x5101 )   // Q...
+st( QUOTE1             , "'"       ,          )
+st( QUOTE2             , "\""      ,          )
+st( QUOTE_Quad         , "⍞"       ,          )
+st( Quad_PREFIX        , ""        ,          )
+
+qv( R                  , "⎕R"      , = 0x5201 )   // R...
+st( R_ARROW            , "→"       ,          )
+st( R_BRACK            , "]"       ,          )
+st( R_CURLY            , "}"       ,          )
+st( R_PARENT           , ")"       ,          )
+sf( OPER2_RANK         , "⍤"       ,          )
+pp( REAL               , ---       ,          )
+sf( OPER1_REDUCE       , "/"       ,          )
+sf( OPER1_REDUCE1      , "⌿"       ,          )
+pp( RETURN_EXEC        , ---       ,          )   // ⍎X
+pp( RETURN_STATS       , ---       ,          )   // A ◊ B ◊ C
+pp( RETURN_SYMBOL      , ---       ,          )   // Z←A FUN B
+pp( RETURN_VOID        , ---       ,          )   // A FUN B
+sf( F12_RHO            , "⍴"       ,          )
+sf( F2_RIGHT           , "⊢"       ,          )
+qv( RL                 , "⎕RL"     ,          )
+sf( F12_RND_DN         , "⌊"       ,          )
+sf( F12_RND_UP         , "⌈"       ,          )
+sf( F12_ROLL           , "?"       ,          )
+sf( F12_ROTATE         , "⌽"       ,          )
+sf( F12_ROTATE1        , "⊖"       ,          )
+qf( RVAL               , "⎕RVAL"   ,          )
+
+sf( OPER1_SCAN         , "\\"      , = 0x5301 )   // S...
+sf( OPER1_SCAN1        , "⍀"       ,          )
+st( SEMICOL            , ";"       ,          )
+qf( SI                 , "⎕SI"     ,          )
+pp( SI_PUSHED          , ---       ,          )
+pp( SI_EVAL_ERR        , ---       ,          )
+sf( F12_SORT_ASC       , "⍋"       ,          )
+sf( F12_SORT_DES       , "⍒"       ,          )
+st( SPACE              , " "       ,          )
+sf( F12_STILE          , "∣"       ,          )
+qf( SVC                , "⎕SVC"    ,          )
+qv( SVE                , "⎕SVE"    ,          )
+qf( SVO                , "⎕SVO"    ,          )
+qf( SVQ                , "⎕SVQ"    ,          )
+qf( SVR                , "⎕SVR"    ,          )
+qf( SVS                , "⎕SVS"    ,          )
+qv( SYL                , "⎕SYL"    ,          )
+pp( USER_SYMBOL        , ---       ,          )
+qf( RE                 , "⎕RE"     ,          )
+pp( STOP_LINE          , ---       ,          )
+qf( STOP               , "⎕STOP"   ,          )
+
+sf( F12_TAKE           , "↑"       , = 0x5401 )   // T...
+qv( TC                 , "⎕TC"     ,          )
+qf( TF                 , "⎕TF"     ,          )
+sf( F12_TIMES          , "×"       ,          )
+sf( F12_TRANSPOSE      , "⍉"       ,          )
+qv( TS                 , "⎕TS"     ,          )
+qv( TZ                 , "⎕TZ"     ,          )
+qf( TRACE              , "⎕TRACE"  ,          )
+
+qf( UCS                , "⎕UCS"    , = 0x5501 )   // U...
+qv( UL                 , "⎕UL"     ,          )
+sf( F2_UNEQU           , "≠"       ,          )
+sf( F12_UNION          , "∪"       ,          )
+pp( FUN_USER           , ---       ,          )
+sf( F2_UNEQ_B          , "⊤≠"      ,          )
+
+pp( VARIABLE           , ---       , = 0x5601 )   // V...
+pp( VOID               , ---       ,          )
+
+qv( WA                 , "⎕WA"     , = 0x5701 )   // C...
+sf( F12_WITHOUT        , "∼"       ,          )
+
+qv( X                  , "⎕X"      , = 0x5801 )   // X...
+qf( XML                , "⎕XML"    ,          )
+
+sf( F0_ZILDE           , "⍬"       , = 0x5A01 )   // Z...
+
+//-----------------------------------------------------------------------------
+
+#undef pp
+#undef qf
+#undef qv
+#undef sf
+#undef st
+

@@ -1,0 +1,124 @@
+
+/*
+    This file is part of GNU APL, a free implementation of the
+    ISO/IEC Standard 13751, "Programming Language APL, Extended"
+
+    Copyright © 2008-2023  Dr. Jürgen Sauermann
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/** @file
+*/
+
+#ifndef __CELL_ICC_DEFINED__
+#define __CELL_ICC_DEFINED__
+
+//----------------------------------------------------------------------------
+inline bool
+Cell::tolerantly_equal(APL_Float A, APL_Float B, double C)
+{
+   // if the signs of A and B differ then they are unequal (ISO standard
+   // page 19). We treat exact 0.0 as having both signs
+   //
+   if (A == B)               return true;
+   if (A < 0.0 && B > 0.0)   return false;
+   if (A > 0.0 && B < 0.0)   return false;
+
+const APL_Float mag_A = A < 0.0 ? APL_Float(-A) : A;
+const APL_Float mag_B = B < 0.0 ? APL_Float(-B) : B;
+const APL_Float mag_max = mag_A > mag_B ? mag_A : mag_B;
+
+const APL_Float dist_A_B = A > B ? (A - B) : (B - A);
+
+   return dist_A_B < C*mag_max;
+}
+//----------------------------------------------------------------------------
+inline bool
+Cell::same_half_plane(APL_Complex A, APL_Complex B)
+{
+   if (A.real() > 0.0 && B.real() > 0.0)   return true;
+   if (A.real() < 0.0 && B.real() < 0.0)   return true;
+
+   if (A.imag() > 0.0 && B.imag() > 0.0)   return true;
+   if (A.imag() < 0.0 && B.imag() < 0.0)   return true;
+
+   return false;
+}
+//----------------------------------------------------------------------------
+inline bool
+Cell::tolerantly_equal(APL_Complex A, APL_Complex B, double C)
+{
+   // if A equals B, return true
+   //
+   if (A == B) return true;
+
+   // ISO: if A and B are not in the same half-plane, return false.
+   //
+   // Note: this leads to problems with complex modulo of Gaussian integers, so
+   //       we do not do it.
+   //
+   // if (!same_half_plane(A, B))   return false;
+
+   // If the distance-between A and B is ≤ C times the larger-magnitude
+   // of A and B, return true
+   //
+   // Implementation: Instead of mag(A-B)  ≤ C × max(mag(A),   mag(B))
+   // we compute:                mag²(A-B) ≤ C² × max(mag²(A), mag²(B))
+   //                                      == max(mag²(C×A), mag²(C×B))
+   //
+   // that avoids unneccessary computations of sqrt().
+   //
+
+   // 1. compute left side: mag²(A-B)
+   //
+const APL_Complex A_B = A - B;
+const APL_Float dist2_A_B = A_B.real() * A_B.real()
+                          + A_B.imag() * A_B.imag();
+
+   // 2. compute right side: max(mag²C×A, mag²C×B)
+   //
+const APL_Float Cmag2_A   = C * ComplexCell::mag2(A);
+const APL_Float Cmag2_B   = C * ComplexCell::mag2(B);
+const APL_Float mag2_max = Cmag2_A > Cmag2_B ? Cmag2_A : Cmag2_B;
+
+   // compare
+   //
+   return dist2_A_B <= mag2_max;
+}
+//----------------------------------------------------------------------------
+inline bool
+Cell::integral_within(APL_Float A, double qct)
+{
+   if (A < (floor(A) + qct))   return true;
+   if (A > (ceil(A)  - qct))   return true;
+   return false;
+
+   // Note: despite its name (coming from the ISO standard) this implementation
+   // of integral_within is NOT the one described in the ISO standard. The
+   // description in the standard was leading to problems in bif_residue
+   //
+   // 1, scale qct to the magnitude of A
+   //
+   qct = A * A * qct;
+
+const APL_Float real_up = ceil (A) - qct;
+const APL_Float real_dn = floor(A) + qct;
+
+   return A > real_up || A < real_dn;
+}
+//----------------------------------------------------------------------------
+
+#endif // __CELL_ICC_DEFINED__
+

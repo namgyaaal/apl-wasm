@@ -1,0 +1,286 @@
+/*
+    This file is part of GNU APL, a free implementation of the
+    ISO/IEC Standard 13751, "Programming Language APL, Extended"
+
+    Copyright © 2008-2023  Dr. Jürgen Sauermann
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/** @file
+*/
+
+//----------------------------------------------------------------------------
+inline void
+Value_P_Base::reset()
+{
+   if (value_p)
+      {
+        value_p->decrement_owner_count(LOC);
+        value_p = 0;
+      }
+}
+//----------------------------------------------------------------------------
+inline void
+Value_P_Base::clear(const char * loc)
+{
+  if (value_p)
+     {
+        value_p->decrement_owner_count(LOC);
+       ADD_EVENT(value_p, VHE_PtrClr,
+                 value_p ? value_p->owner_count : -99, loc);
+
+       value_p = 0;
+     }
+}
+//----------------------------------------------------------------------------
+inline void
+Value_P_Base::clear_pointer(const char * loc)
+{
+  if (value_p)
+     {
+       // do NOT decrement_owner_count() !
+       ADD_EVENT(value_p, VHE_PtrClr,
+                 value_p ? value_p->owner_count : -99, loc);
+
+       value_p = 0;
+     }
+}
+// ============================================================================
+
+#include "Error.hh"
+
+//----------------------------------------------------------------------------
+inline Value_P::Value_P(const char * loc)
+{
+const char * args = "const char * loc";
+   value_p = 0;
+
+   try                           { value_p = new Value(loc); }
+   catch (const Error & error)   { Value::catch_Error(error, loc, LOC);       }
+   catch (const exception & e)   { Value::catch_exception(e, args, loc, LOC); }
+   catch (...)                   { Value::catch_ANY(args, loc, LOC);          }
+
+   value_p->increment_owner_count(loc);
+   ADD_EVENT(value_p, VHE_PtrNew, value_p->owner_count, loc);
+}
+//----------------------------------------------------------------------------
+inline Value_P::~Value_P()
+{
+   if (value_p)
+      {
+        value_p->decrement_owner_count(LOC);
+        ADD_EVENT(value_p, VHE_PtrDel,
+                  value_p ? value_p->owner_count : -99, LOC);
+      }
+}
+//----------------------------------------------------------------------------
+inline Value_P::Value_P(const Cell & cell, const char * loc)
+{
+const char * args = "const Cell & cell, const char * loc";
+   value_p = 0;
+
+   try                           { value_p = new Value(cell, loc); }
+   catch (const Error & error)   { Value::catch_Error(error, loc, LOC);       }
+   catch (const exception & e)   { Value::catch_exception(e, args, loc, LOC); }
+   catch (...)                   { Value::catch_ANY(args, loc, LOC);          }
+
+   value_p->increment_owner_count(loc);
+   ADD_EVENT(value_p, VHE_PtrNew, value_p->owner_count, loc);
+}
+//----------------------------------------------------------------------------
+inline Value_P::Value_P(ShapeItem len, const char * loc)
+{
+const char * args = "ShapeItem len, const char * loc";
+   value_p = 0;
+
+   try                           { value_p = new Value(len, loc); }
+   catch (const Error & error)   { Value::catch_Error(error, loc, LOC);       }
+   catch (const exception & e)   { Value::catch_exception(e, args, loc, LOC); }
+   catch (...)                   { Value::catch_ANY(args, loc, LOC);          }
+
+   value_p->increment_owner_count(loc);
+   ADD_EVENT(value_p, VHE_PtrNew, value_p->owner_count, loc);
+}
+//----------------------------------------------------------------------------
+inline Value_P::Value_P(const UCS_string & ucs, const char * loc)
+{
+const char * args = "const UCS_string & ucs, const char * loc";
+   value_p = 0;
+
+   try                           { value_p = new Value(ucs, loc); }
+   catch (const Error & error)   { Value::catch_Error(error, loc, LOC);       }
+   catch (const exception & e)   { Value::catch_exception(e, args, loc, LOC); }
+   catch (...)                   { Value::catch_ANY(args, loc, LOC);          }
+
+   value_p->increment_owner_count(loc);
+   ADD_EVENT(value_p, VHE_PtrNew, value_p->owner_count, loc);
+}
+//----------------------------------------------------------------------------
+inline Value_P::Value_P(const CDR_string & cdr, const char * loc)
+{
+const char * args = "const CDR_string & cdr, const char * loc";
+   value_p = 0;
+
+   try                           { value_p = new Value(cdr, loc); }
+   catch (const Error & error)   { Value::catch_Error(error, loc, LOC);       }
+   catch (const exception & e)   { Value::catch_exception(e, args, loc, LOC); }
+   catch (...)                   { Value::catch_ANY(args, loc, LOC);          }
+
+   value_p->increment_owner_count(loc);
+   ADD_EVENT(value_p, VHE_PtrNew, value_p->owner_count, loc);
+}
+//----------------------------------------------------------------------------
+inline Value_P::Value_P(const PrintBuffer & pb, const char * loc)
+{
+const char * args = "const PrintBuffer & ob, const char * loc";
+   value_p = 0;
+
+   try                   { value_p = new Value(pb, loc); }
+   catch (const Error & error)   { Value::catch_Error(error, loc, LOC);       }
+   catch (const exception & e)   { Value::catch_exception(e, args, loc, LOC); }
+   catch (...)                   { Value::catch_ANY(args, loc, LOC);          }
+
+   value_p->increment_owner_count(loc);
+   ADD_EVENT(value_p, VHE_PtrNew, value_p->owner_count, loc);
+}
+//----------------------------------------------------------------------------
+inline Value_P::Value_P(const UTF8_string & utf, const char * loc)
+{
+const char * args = "const UTF8_string & utf, const char * loc";
+   value_p = 0;
+
+   try                           { value_p = new Value(utf, loc); }
+   catch (const Error & error)   { Value::catch_Error(error, loc, LOC);       }
+   catch (const exception & e)   { Value::catch_exception(e, args, loc, LOC); }
+   catch (...)                   { Value::catch_ANY(args, loc, LOC);          }
+
+   value_p->increment_owner_count(loc);
+   ADD_EVENT(value_p, VHE_PtrNew, value_p->owner_count, loc);
+}
+//----------------------------------------------------------------------------
+inline Value_P::Value_P(const char * loc, const Shape * shape)
+{
+const char * args = "const char * loc, const Shape & shape";
+   value_p = 0;
+
+   try                           { value_p = new Value(loc, shape); }
+   catch (const Error & error)   { Value::catch_Error(error, loc, LOC);       }
+   catch (const exception & e)   { Value::catch_exception(e, args, loc, LOC); }
+   catch (...)                   { Value::catch_ANY(args, loc, LOC);          }
+
+   value_p->increment_owner_count(loc);
+   ADD_EVENT(value_p, VHE_PtrNew, value_p->owner_count, loc);
+}
+//----------------------------------------------------------------------------
+inline void
+Value_P::operator =(const Value_P & other)
+{
+   if (value_p == other.value_p)   return;   // same pointer
+
+   if (value_p)   // override existing pointer
+      {
+        value_p->decrement_owner_count(LOC);   // give up our (co-)ownership
+        ADD_EVENT(value_p, VHE_PtrClr, other.value_p->owner_count, LOC);
+      }
+
+   value_p = other.value_p;
+   if (value_p)
+      {
+        value_p->increment_owner_count(LOC);   // take (co-)ownership
+        ADD_EVENT(value_p, VHE_PtrCopy3, value_p->owner_count, LOC);
+      }
+}
+//----------------------------------------------------------------------------
+inline Value_P::Value_P(const Value_P & other, const char * loc)
+{
+   value_p = other.value_p;
+   if (value_p)
+      {
+        value_p->increment_owner_count(loc);
+        ADD_EVENT(value_p, VHE_PtrCopy, value_p->owner_count, loc);
+      }
+}
+//----------------------------------------------------------------------------
+inline Value_P::Value_P(const Value_P & other)
+{
+   value_p = other.value_p;
+   if (value_p)
+      {
+        value_p->increment_owner_count(LOC);
+        ADD_EVENT(value_p, VHE_PtrCopy, value_p->owner_count, LOC);
+      }
+}
+//----------------------------------------------------------------------------
+inline Value_P::Value_P(const Shape & shape, const char * loc)
+{
+const char * args = "const Shape & shape, const char * loc";
+   value_p = 0;
+   if (Value::check_WS_FULL(args, shape.get_volume(), loc))
+      {
+        MORE_ERROR() << "WS FULL detected by Value::check_WS_FULL()";
+        WS_FULL;
+      }
+
+   try                           { value_p = new Value(shape, loc); }
+   catch (const Error & error)   { Value::catch_Error(error, loc, LOC);       }
+   catch (const exception & e)   { Value::catch_exception(e, args, loc, LOC); }
+   catch (...)                   { Value::catch_ANY(args, loc, LOC);          }
+
+   value_p->increment_owner_count(loc);
+   ADD_EVENT(value_p, VHE_PtrNew, value_p->owner_count, loc);
+}
+//----------------------------------------------------------------------------
+inline Value_P::Value_P(const Shape & shape, uint64_t * bits, const char * loc)
+{
+   // cannot WS_FULL since bits were allocated beforehand
+   //
+   value_p = new Value(shape, bits, loc);
+   value_p->increment_owner_count(loc);
+   ADD_EVENT(value_p, VHE_PtrNew, value_p->owner_count, loc);
+}
+//----------------------------------------------------------------------------
+inline Value_P::Value_P(Value * val, const char * loc)
+{
+   value_p = val;
+   value_p->increment_owner_count(loc);
+   ADD_EVENT(value_p, VHE_PtrNew, value_p->owner_count, loc);
+}
+//----------------------------------------------------------------------------
+inline void
+Value_P_Base::isolate(const char * loc)
+{
+#ifdef NEW_CLONE
+   if (value_p && value_p->get_owner_count() > 1)
+      {
+        Value_P Z = value_p->clone(loc);
+        value_p->decrement_owner_count(LOC);
+        value_p = Z.value_p;
+        Z.value_p = 0;
+      }
+#endif
+}
+//----------------------------------------------------------------------------
+inline void
+Value_P_Base::move(Value_P_Base & other, const char * loc)
+{
+   if (value_p)   value_p->decrement_owner_count(loc);
+   value_p = other.value_p;
+   if (value_p)
+      ADD_EVENT(value_p, VHE_TokMove, value_p->get_owner_count(), loc);
+
+   other.value_p = 0;
+}
+//----------------------------------------------------------------------------
+
