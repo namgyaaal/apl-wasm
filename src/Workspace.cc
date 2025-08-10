@@ -29,7 +29,6 @@
 
 using namespace std;
 
-#include "Archive.hh"
 #include "Command.hh"
 #include "InputFile.hh"
 #include "IO_Files.hh"
@@ -692,12 +691,6 @@ ofstream outf(filename.c_str(), ofstream::out);
 
    the_workspace.WS_name = WS_name;
 
-   Log(LOG_archive)   CERR << "constructing XML_Saving_Archive." << endl;
-XML_Saving_Archive ar(outf);
-   Log(LOG_archive)   CERR << "saving XML_Saving_Archive..." << endl;
-   ar.save();
-   Log(LOG_archive)   CERR << "done XML_Saving_Archive." << endl;
-
    // print time and date to COUT
    get_v_Quad_TZ().print_timestamp(out, now());
    if (name_from_WSID)   out << " " << the_workspace.WS_name;
@@ -1002,7 +995,7 @@ Workspace::load_WS(ostream & out, LibRef libref, const UCS_string & WS_name,
 
 UTF8_string filename = LibPaths::get_lib_filename(libref, WS_name, true,
                                                   ".xml", ".apl");
-
+/*
 int dump_fd = -1;
 XML_Loading_Archive in(out, filename.c_str(), dump_fd);
 
@@ -1060,6 +1053,8 @@ XML_Loading_Archive in(out, filename.c_str(), dump_fd);
       }
 
    if (Workspace::get_LX().size())  quad_lx = Workspace::get_LX();
+
+*/
 }
 //----------------------------------------------------------------------------
 void
@@ -1080,6 +1075,7 @@ UTF8_string filename = LibPaths::get_lib_filename(libref, WS_name, true,
    // 2. filename.xml (i.e. file was )SAVEd).  dump_fd: = -1, in: open
    // 3. no such file.                         dump_fd: = -1, in: closed
    //
+/*
 int dump_fd = -1;
 XML_Loading_Archive in(out, filename.c_str(), dump_fd);
    if (dump_fd != -1)   // case 1: )DUMPed .apl file
@@ -1104,6 +1100,7 @@ XML_Loading_Archive in(out, filename.c_str(), dump_fd);
    in.set_protection(protection, lib_ws_objects);
    in.read_vids();
    in.read_Workspace(false);
+*/
 }
 //----------------------------------------------------------------------------
 void

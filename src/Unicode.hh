@@ -29,6 +29,11 @@
 #endif
 
 #include "Common.hh"
+#include <string>
+
+
+// Define character_traits for it 
+
 
 /// One Unicode character
 enum Unicode
